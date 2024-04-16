@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <header>我是header，好辛苦啊 QQ</header>
 </template>
 
@@ -11,5 +11,13 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss" scoped></style> -->
+
+<template>
+  <header>我是header，好辛苦啊 QQ</header>
+</template>
+
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped></style>
