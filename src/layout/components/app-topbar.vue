@@ -6,7 +6,7 @@
 
 <style scoped>
 .topbar {
-  background-color: antiquewhite;
+  background-color: rgb(207, 207, 207);
   padding: 20px;
 }
 </style>
