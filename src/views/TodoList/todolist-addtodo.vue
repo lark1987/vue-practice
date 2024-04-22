@@ -3,6 +3,7 @@ const inputValue = defineModel()
 const emit = defineEmits(['sendInput'])
 const handleSendInput = () => {
   emit('sendInput', inputValue)
+  inputValue.value = ''
 }
 </script>
 

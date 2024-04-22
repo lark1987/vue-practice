@@ -1,13 +1,21 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 const todos = defineModel()
-const emits = defineEmits(['updateCheckbox', 'updateIsEdit'])
+const newTodo = ref()
+const emits = defineEmits(['updateCheckbox', 'updateIsEdit', 'updateTodo'])
 
 function handleCheckbox(id: string) {
   emits('updateCheckbox', id)
 }
 
-function toggleEdit(id: string) {
-  emits('updateIsEdit', id)
+function editTodo(id: string, isEdit: boolean) {
+  if (isEdit) {
+    emits('updateTodo', id, newTodo.value)
+    newTodo.value = ''
+  } else {
+    emits('updateIsEdit', id)
+  }
 }
 </script>
 
@@ -16,16 +24,25 @@ function toggleEdit(id: string) {
     <li v-for="{ id, todo, isChecked, isEdit } in todos" :key="id">
       <input type="checkbox" :checked="isChecked" @change="handleCheckbox(id)" />
       <span v-if="!isEdit">{{ todo }}</span>
-      <input v-else type="text" />
-      <button @click="toggleEdit(id)">{{ isEdit ? '儲存' : '編輯' }}</button>
+      <input
+        v-else
+        type="text"
+        v-model="newTodo"
+        @keyup.enter="editTodo(id, isEdit)"
+        @blur="editTodo(id, isEdit)"
+      />
+      <button @click="editTodo(id, isEdit)">{{ isEdit ? '儲存' : '編輯' }}</button>
+      <button>刪除</button>
     </li>
   </ul>
-  <br /><br />
-  {{ todos }}
+  <br /><br /><br /><br />
+  <div v-for="{ id, todo, isChecked, isEdit } in todos" :key="id">
+    {{ todo }}，{{ isChecked }}，{{ isEdit }}
+  </div>
 </template>
 
 <style scoped>
 button {
-  margin-left: 30px;
+  margin-left: 5px;
 }
 </style>

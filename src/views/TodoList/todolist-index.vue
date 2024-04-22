@@ -1,12 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { reactive } from 'vue'
 import { nanoid } from 'nanoid'
 import type { Ref } from 'vue'
 import TodoInput from './todolist-addtodo.vue'
 import TodoContent from './todolist-todos.vue'
 import TodoFooter from './todolist-footer.vue'
 
-const todos = ref([
+interface Todo {
+  id: string
+  todo: string
+  isChecked: boolean
+  isEdit: boolean
+}
+
+const todos = reactive<Todo[]>([
   {
     id: '001',
     todo: '你好',
@@ -34,17 +41,29 @@ function sendInput(input: Ref) {
     isChecked: false,
     isEdit: false
   }
-  todos.value.unshift(newItem)
+  todos.unshift(newItem)
 }
 
 function updateCheckbox(id: string) {
-  let item: any = todos.value.find((todo) => todo.id === id)
-  item.isChecked = !item.isChecked
+  let item = todos.find((todo) => todo.id === id)
+  if (item) {
+    item.isChecked = !item.isChecked
+  }
 }
 
 function updateIsEdit(id: string) {
-  let item: any = todos.value.find((todo) => todo.id === id)
-  item.isEdit = !item.isEdit
+  let item = todos.find((todo) => todo.id === id)
+  if (item) {
+    item.isEdit = !item.isEdit
+  }
+}
+
+function updateTodo(id: string, newTodo: string) {
+  let item = todos.find((todo) => todo.id === id)
+  if (item) {
+    item.isEdit = false
+    item.todo = newTodo
+  }
 }
 </script>
 
@@ -55,6 +74,7 @@ function updateIsEdit(id: string) {
     v-model="todos"
     @updateCheckbox="updateCheckbox"
     @updateIsEdit="updateIsEdit"
+    @updateTodo="updateTodo"
   ></TodoContent>
   <br /><br /><br />
   <TodoFooter></TodoFooter>
