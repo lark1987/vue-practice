@@ -3,7 +3,7 @@ import { reactive } from 'vue'
 import { nanoid } from 'nanoid'
 import type { Ref } from 'vue'
 import TodoInput from './todolist-addtodo.vue'
-import TodoContent from './todolist-todos.vue'
+import TodoContent from './todolist-content.vue'
 import TodoFooter from './todolist-footer.vue'
 
 interface Todo {
@@ -13,7 +13,7 @@ interface Todo {
   isEdit: boolean
 }
 
-const todos = reactive<Todo[]>([
+let todos = reactive<Todo[]>([
   {
     id: '001',
     todo: '你好',
@@ -34,7 +34,7 @@ const todos = reactive<Todo[]>([
   }
 ])
 
-function sendInput(input: Ref) {
+function addTodo(input: Ref) {
   let newItem = {
     id: nanoid(),
     todo: input.value,
@@ -44,6 +44,7 @@ function sendInput(input: Ref) {
   todos.unshift(newItem)
 }
 
+// 可以另包成 todoContentHandler JS 檔
 function updateCheckbox(id: string) {
   let item = todos.find((todo) => todo.id === id)
   if (item) {
@@ -65,16 +66,24 @@ function updateTodo(id: string, newTodo: string) {
     item.todo = newTodo
   }
 }
+
+function deleteTodo(id: string) {
+  const index = todos.findIndex((todo) => todo.id === id)
+  if (index !== -1) {
+    todos.splice(index, 1)
+  }
+}
 </script>
 
 <template>
-  <TodoInput @sendInput="sendInput"></TodoInput>
+  <TodoInput @addTodo="addTodo"></TodoInput>
   <br /><br /><br />
   <TodoContent
     v-model="todos"
     @updateCheckbox="updateCheckbox"
     @updateIsEdit="updateIsEdit"
     @updateTodo="updateTodo"
+    @deleteTodo="deleteTodo"
   ></TodoContent>
   <br /><br /><br />
   <TodoFooter></TodoFooter>

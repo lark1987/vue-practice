@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 const todos = defineModel()
 const newTodo = ref()
-const emits = defineEmits(['updateCheckbox', 'updateIsEdit', 'updateTodo'])
+const emits = defineEmits(['updateCheckbox', 'updateIsEdit', 'updateTodo', 'deleteTodo'])
 
 function handleCheckbox(id: string) {
   emits('updateCheckbox', id)
@@ -16,6 +16,10 @@ function editTodo(id: string, isEdit: boolean) {
   } else {
     emits('updateIsEdit', id)
   }
+}
+
+function deleteTodo(id: string) {
+  emits('deleteTodo', id)
 }
 </script>
 
@@ -32,7 +36,7 @@ function editTodo(id: string, isEdit: boolean) {
         @blur="editTodo(id, isEdit)"
       />
       <button @click="editTodo(id, isEdit)">{{ isEdit ? '儲存' : '編輯' }}</button>
-      <button>刪除</button>
+      <button @click="deleteTodo(id)">刪除</button>
     </li>
   </ul>
   <br /><br /><br /><br />
