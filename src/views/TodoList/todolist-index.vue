@@ -6,6 +6,8 @@ import TodoInput from './todolist-addtodo.vue'
 import TodoContent from './todolist-content.vue'
 import TodoFooter from './todolist-footer.vue'
 
+// 可以另包成 todoContentHandler JS 檔
+
 interface Todo {
   id: string
   todo: string
@@ -44,15 +46,14 @@ function addTodo(input: Ref) {
   todos.unshift(newItem)
 }
 
-// 可以另包成 todoContentHandler JS 檔
-function updateCheckbox(id: string) {
+function toggleCheckbox(id: string) {
   let item = todos.find((todo) => todo.id === id)
   if (item) {
     item.isChecked = !item.isChecked
   }
 }
 
-function updateIsEdit(id: string) {
+function toggleIsEdit(id: string) {
   let item = todos.find((todo) => todo.id === id)
   if (item) {
     item.isEdit = !item.isEdit
@@ -79,9 +80,9 @@ function deleteTodo(id: string) {
   <TodoInput @addTodo="addTodo"></TodoInput>
   <br /><br /><br />
   <TodoContent
-    v-model="todos"
-    @updateCheckbox="updateCheckbox"
-    @updateIsEdit="updateIsEdit"
+    :todos
+    @toggleCheckbox="toggleCheckbox"
+    @toggleIsEdit="toggleIsEdit"
     @updateTodo="updateTodo"
     @deleteTodo="deleteTodo"
   ></TodoContent>
