@@ -60,16 +60,15 @@ function deleteTodo(id: string) {
       <button @click="deleteTodo(id)">刪除</button>
     </li>
   </ul>
-  <br /><br />
-  <div v-for="{ id, todo, isChecked, isEdit } in todos" :key="id">
-    {{ todo }}，{{ isChecked }}，{{ isEdit }}
-  </div>
-  <br /><br />
 </template>
 
 <style scoped>
 button {
   margin-left: 5px;
+}
+
+ul {
+  padding: 0px;
 }
 
 li {

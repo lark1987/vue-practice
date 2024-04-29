@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref } from 'vue'
 import { nanoid } from 'nanoid'
 import type { Ref } from 'vue'
 import TodoInput from './todolist-addtodo.vue'
@@ -15,7 +15,7 @@ interface Todo {
   isEdit: boolean
 }
 
-let todos = reactive<Todo[]>([
+let todos = ref<Todo[]>([
   {
     id: '001',
     todo: '你好',
@@ -43,25 +43,25 @@ function addTodo(input: Ref) {
     isChecked: false,
     isEdit: false
   }
-  todos.unshift(newItem)
+  todos.value.unshift(newItem)
 }
 
 function toggleCheckbox(id: string) {
-  let item = todos.find((todo) => todo.id === id)
+  let item = todos.value.find((todo) => todo.id === id)
   if (item) {
     item.isChecked = !item.isChecked
   }
 }
 
 function toggleIsEdit(id: string) {
-  let item = todos.find((todo) => todo.id === id)
+  let item = todos.value.find((todo) => todo.id === id)
   if (item) {
     item.isEdit = !item.isEdit
   }
 }
 
 function updateTodo(id: string, newTodo: string) {
-  let item = todos.find((todo) => todo.id === id)
+  let item = todos.value.find((todo) => todo.id === id)
   if (item) {
     item.isEdit = false
     item.todo = newTodo
@@ -69,10 +69,22 @@ function updateTodo(id: string, newTodo: string) {
 }
 
 function deleteTodo(id: string) {
-  const index = todos.findIndex((todo) => todo.id === id)
+  const index = todos.value.findIndex((todo) => todo.id === id)
   if (index !== -1) {
-    todos.splice(index, 1)
+    todos.value.splice(index, 1)
   }
+}
+
+function toggleAllCheckbox(allCheck: boolean) {
+  todos.value.forEach((todo) => {
+    todo.isChecked = !allCheck
+  })
+}
+
+function deleteCheckedTodo() {
+  todos.value = todos.value.filter((item) => {
+    return item.isChecked === false
+  })
 }
 </script>
 
@@ -87,7 +99,11 @@ function deleteTodo(id: string) {
     @deleteTodo="deleteTodo"
   ></TodoContent>
   <br /><br /><br />
-  <TodoFooter></TodoFooter>
+  <TodoFooter
+    :todos
+    @toggleAllCheckbox="toggleAllCheckbox"
+    @deleteCheckedTodo="deleteCheckedTodo"
+  ></TodoFooter>
 </template>
 
 <style lang="scss" scoped></style>
