@@ -42,36 +42,36 @@ function deleteTodo(id: string) {
 </script>
 
 <template>
-  <ul>
-    <li v-for="{ id, todo, isChecked, isEdit } in todos" :key="id">
-      <input type="checkbox" :checked="isChecked" @change="toggleCheckbox(id)" />
-      <span v-if="!isEdit">{{ todo }}</span>
-      <input
-        v-else
-        type="text"
-        :value="todo"
-        @change="getNewTodoValue($event)"
-        @keyup.enter="updateTodo(id)"
-        @blur="updateTodo(id)"
-        ref="editRefs"
-      />
-      <button v-if="!isEdit" @click="editTodo(id)">編輯</button>
-      <button v-else @click="updateTodo(id)">儲存</button>
-      <button @click="deleteTodo(id)">刪除</button>
-    </li>
-  </ul>
+  <div class="mb-10">
+    <ul>
+      <li
+        v-for="{ id, todo, isChecked, isEdit } in todos"
+        :key="id"
+        class="flex hover:bg-slate-200 p-1"
+      >
+        <input type="checkbox" :checked="isChecked" @change="toggleCheckbox(id)" />
+        <div class="break-all grow mx-10">
+          <span v-if="!isEdit">{{ todo }}</span>
+          <textarea
+            v-else
+            type="text"
+            :value="todo"
+            @change="getNewTodoValue($event)"
+            @keyup.enter="updateTodo(id)"
+            @blur="updateTodo(id)"
+            ref="editRefs"
+            class="w-full"
+          ></textarea>
+        </div>
+
+        <div class="whitespace-nowrap">
+          <button v-if="!isEdit" @click="editTodo(id)">編輯</button>
+          <button v-else @click="updateTodo(id)">儲存</button>
+          <button @click="deleteTodo(id)">刪除</button>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
-<style scoped>
-button {
-  margin-left: 5px;
-}
-
-ul {
-  padding: 0px;
-}
-
-li {
-  list-style: none;
-}
-</style>
+<style scoped></style>

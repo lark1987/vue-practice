@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { nanoid } from 'nanoid'
 import type { Ref } from 'vue'
-import TodoInput from './todolist-addtodo.vue'
+import TodoInput from './todolist-header.vue'
 import TodoContent from './todolist-content.vue'
 import TodoFooter from './todolist-footer.vue'
 
@@ -17,21 +17,21 @@ interface Todo {
 
 let todos = ref<Todo[]>([
   {
+    id: '003',
+    todo: 'hello, 嗨嗨',
+    isChecked: true,
+    isEdit: false
+  },
+  {
     id: '001',
-    todo: '你好',
+    todo: '滾滾長江東逝水，浪花淘盡英雄。是非成敗轉頭空，青山依舊在，幾度夕陽紅。白髮漁樵江渚上，慣看秋月春風。一壺濁酒喜相逢，古今多少事，都付笑談中。',
     isChecked: false,
     isEdit: false
   },
   {
     id: '002',
-    todo: '嗨嗨',
+    todo: 'Remembering that you are going to die is the best way I know to avoid the trap of thinking you have something to lose. You are already naked. There is no reason not to follow your heart.',
     isChecked: false,
-    isEdit: false
-  },
-  {
-    id: '003',
-    todo: 'hello',
-    isChecked: true,
     isEdit: false
   }
 ])
@@ -89,21 +89,21 @@ function deleteCheckedTodo() {
 </script>
 
 <template>
-  <TodoInput @addTodo="addTodo"></TodoInput>
-  <br /><br /><br />
-  <TodoContent
-    :todos
-    @toggleCheckbox="toggleCheckbox"
-    @toggleIsEdit="toggleIsEdit"
-    @updateTodo="updateTodo"
-    @deleteTodo="deleteTodo"
-  ></TodoContent>
-  <br /><br /><br />
-  <TodoFooter
-    :todos
-    @toggleAllCheckbox="toggleAllCheckbox"
-    @deleteCheckedTodo="deleteCheckedTodo"
-  ></TodoFooter>
+  <div class="p-10">
+    <TodoInput @addTodo="addTodo"></TodoInput>
+    <TodoContent
+      :todos
+      @toggleCheckbox="toggleCheckbox"
+      @toggleIsEdit="toggleIsEdit"
+      @updateTodo="updateTodo"
+      @deleteTodo="deleteTodo"
+    ></TodoContent>
+    <TodoFooter
+      :todos
+      @toggleAllCheckbox="toggleAllCheckbox"
+      @deleteCheckedTodo="deleteCheckedTodo"
+    ></TodoFooter>
+  </div>
 </template>
 
 <style lang="scss" scoped></style>

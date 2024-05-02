@@ -4,14 +4,14 @@ import AppTopbar from './components/app-topbar.vue'
 </script>
 
 <template>
-  <nav class="appSidebar">
+  <nav class="w-1/6">
     <AppSidebar />
   </nav>
-  <main>
-    <header class="p-3 bg-gray-400 w-screen">
+  <main class="w-5/6">
+    <header class="p-3 bg-slate-500">
       <AppTopbar />
     </header>
-    <section class="p-3">
+    <section class="bg-gray-100">
       <RouterView></RouterView>
     </section>
   </main>

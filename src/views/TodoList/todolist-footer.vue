@@ -23,10 +23,12 @@ function handleBatchDelete() {
 </script>
 
 <template>
-  <input type="checkbox" :checked="checkboxAllCheck" @change="handleToggleAllCheckbox" />
-  <span>批量選取</span>
-  <span>，已完成{{ sumOfIsChecked }}，總數量{{ todos.todos.length }}，</span>
-  <button @click="handleBatchDelete">批量刪除</button>
+  <div>
+    <input type="checkbox" :checked="checkboxAllCheck" @change="handleToggleAllCheckbox" />
+    <span>全選</span>
+    <span>，已勾選{{ sumOfIsChecked }}，總數量{{ todos.todos.length }}，</span>
+    <button @click="handleBatchDelete">刪除勾選</button>
+  </div>
 </template>
 
 <style lang="scss" scoped></style>
