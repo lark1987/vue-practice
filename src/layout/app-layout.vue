@@ -7,29 +7,14 @@ import AppTopbar from './components/app-topbar.vue'
   <nav class="appSidebar">
     <AppSidebar />
   </nav>
-  <main class="appContainer">
-    <header>
+  <main>
+    <header class="p-3 bg-gray-400 w-screen">
       <AppTopbar />
     </header>
-    <section class="appContent">
+    <section class="p-3">
       <RouterView></RouterView>
     </section>
   </main>
 </template>
 
-<style scoped>
-.appSidebar {
-  width: 200px;
-  height: 100vh;
-  background-color: rgb(95, 116, 179);
-}
-.appContainer {
-  width: 100%;
-  background-color: aliceblue;
-}
-
-.appContent {
-  padding: 20px;
-  background-color: rgb(247, 208, 208);
-}
-</style>
+<style scoped></style>

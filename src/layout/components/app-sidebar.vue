@@ -1,17 +1,22 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const routes = [
+  { name: 'HomePage', path: '/' },
+  { name: 'TodoList', path: '/todolist' },
+  { name: 'Test', path: '/' },
+  { name: 'Test', path: '/' }
+]
+</script>
 
 <template>
-  <RouterLink to="/">HomePage</RouterLink>
-  <RouterLink to="/todolist">TodoList</RouterLink>
+  <div class="bg-blue-100 h-screen">
+    <RouterLink
+      v-for="(item, index) in routes"
+      :key="index"
+      :to="item.path"
+      class="block hover:bg-blue-200 p-3"
+      >{{ item.name }}</RouterLink
+    >
+  </div>
 </template>
 
-<style scoped>
-a {
-  display: block;
-  padding: 20px;
-  color: aliceblue;
-}
-a:hover {
-  background-color: rgb(66, 81, 126);
-}
-</style>
+<style scoped></style>
