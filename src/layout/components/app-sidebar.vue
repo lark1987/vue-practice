@@ -1,9 +1,7 @@
 <script setup lang="ts">
 const routes = [
   { name: 'HomePage', path: '/' },
-  { name: 'TodoList', path: '/todolist' },
-  { name: 'Test', path: '/' },
-  { name: 'Test', path: '/' }
+  { name: 'TodoList', path: '/todolist' }
 ]
 </script>
 
