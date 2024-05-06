@@ -15,7 +15,6 @@ function handleAddTodo() {
       @keyup.enter="handleAddTodo"
       class="p-2 rounded mr-3 w-full hover:border-2"
     />
-    <!-- <button @click="handleAddTodo" class="bg-red-100 p-2 rounded hover:bg-red-200">Send</button> -->
   </div>
 </template>
 

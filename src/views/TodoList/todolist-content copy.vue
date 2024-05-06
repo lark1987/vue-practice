@@ -5,7 +5,7 @@ const { todos } = defineProps<{
   todos: any
 }>()
 
-const emit = defineEmits(['toggleCheckbox', 'toggleIsEdit', 'updateTodo', 'deleteTodo', 'dragTodo'])
+const emit = defineEmits(['toggleCheckbox', 'toggleIsEdit', 'updateTodo', 'deleteTodo'])
 
 let newTodo = ''
 
@@ -45,13 +45,19 @@ function autoResize() {
   textarea.style.height = textarea.scrollHeight + 'px'
 }
 
-function dragStartHandler(event: any, dragId: any) {
-  event.dataTransfer.setData('dragId', dragId)
+function dragStartHandler(event: any) {
+  console.log('我是dragStartHandler', event)
 }
 
-function dropHandler(event: any, dropId: any) {
-  let dragId = event.dataTransfer.getData('dragId')
-  emit('dragTodo', dragId, dropId)
+function dropHandler(event: any) {
+  console.log('我是dropHandler', event)
+}
+
+function dragEnterHandler(event: any) {
+  console.log('我是dragEnterHandler', event)
+}
+function dragLeaveHandler(event: any) {
+  console.log('我是dragLeaveHandler', event)
 }
 </script>
 
@@ -62,10 +68,6 @@ function dropHandler(event: any, dropId: any) {
         v-for="{ id, todo, isChecked, isEdit } in todos"
         :key="id"
         class="flex items-center p-3 hover:bg-slate-200 hover:rounded-xl"
-        draggable="true"
-        @dragstart="dragStartHandler($event, id)"
-        @drop="dropHandler($event, id)"
-        @dragover.prevent
       >
         <label class="cursor-pointer">
           <input type="checkbox" :checked="isChecked" @change="toggleCheckbox(id)" class="hidden" />

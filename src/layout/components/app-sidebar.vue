@@ -11,7 +11,7 @@ const routes = [
       v-for="(item, index) in routes"
       :key="index"
       :to="item.path"
-      class="block hover:bg-blue-200 p-3"
+      class="block hover:bg-blue-200 p-3 text-center"
       >{{ item.name }}</RouterLink
     >
   </div>

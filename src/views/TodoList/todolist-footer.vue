@@ -23,12 +23,28 @@ function handleBatchDelete() {
 </script>
 
 <template>
-  <div>
-    <input type="checkbox" :checked="checkboxAllCheck" @change="handleToggleAllCheckbox" />
-    <span>全選</span>
-    <span>，已勾選{{ sumOfIsChecked }}，總數量{{ todos.todos.length }}，</span>
-    <button @click="handleBatchDelete">刪除勾選</button>
+  <div class="flex p-3">
+    <label class="cursor-pointer flex gap-0.5" title="全部選取">
+      <input
+        type="checkbox"
+        :checked="checkboxAllCheck"
+        @change="handleToggleAllCheckbox"
+        class="hidden"
+      />
+      <img v-if="checkboxAllCheck" src="@/assets/icon/checkbox-checked.svg" alt="checkbox" />
+      <img v-else src="@/assets/icon/checkbox.svg" alt="checkbox" />
+    </label>
+    <div class="mx-2">
+      <span>{{ sumOfIsChecked }}/{{ todos.todos.length }}</span>
+    </div>
+    <div @click="handleBatchDelete" title="刪除勾選" class="cursor-pointer">
+      <img src="@/assets/icon/trash-can.svg" alt="delete" />
+    </div>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style scoped>
+img {
+  width: 20px;
+}
+</style>

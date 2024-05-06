@@ -17,19 +17,19 @@ interface Todo {
 
 let todos = ref<Todo[]>([
   {
-    id: '003',
+    id: '001',
     todo: 'hello, 嗨嗨',
     isChecked: true,
     isEdit: false
   },
   {
-    id: '001',
+    id: '002',
     todo: '滾滾長江東逝水，浪花淘盡英雄。是非成敗轉頭空，青山依舊在，幾度夕陽紅。白髮漁樵江渚上，慣看秋月春風。一壺濁酒喜相逢，古今多少事，都付笑談中。',
     isChecked: false,
     isEdit: false
   },
   {
-    id: '002',
+    id: '003',
     todo: 'Remembering that you are going to die is the best way I know to avoid the trap of thinking you have something to lose. You are already naked. There is no reason not to follow your heart.',
     isChecked: false,
     isEdit: false
@@ -86,6 +86,12 @@ function deleteCheckedTodo() {
     return item.isChecked === false
   })
 }
+
+function dragTodo(dragId: any, dropId: any) {
+  let cutIndex = todos.value.findIndex((todo) => todo.id === dragId)
+  let addIndex = todos.value.findIndex((todo) => todo.id === dropId)
+  todos.value.splice(addIndex, 0, todos.value.splice(cutIndex, 1)[0])
+}
 </script>
 
 <template>
@@ -97,6 +103,7 @@ function deleteCheckedTodo() {
       @toggleIsEdit="toggleIsEdit"
       @updateTodo="updateTodo"
       @deleteTodo="deleteTodo"
+      @dragTodo="dragTodo"
     ></TodoContent>
     <TodoFooter
       :todos
