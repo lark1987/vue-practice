@@ -1,15 +1,21 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { Todo } from './types'
 
-const todos = defineProps(['todos'])
+const todos = defineProps<{
+  todos: Todo[]
+}>()
 
-const emit = defineEmits(['toggleAllCheckbox', 'deleteCheckedTodo'])
+const emit = defineEmits<{
+  toggleAllCheckbox: [value: boolean]
+  deleteCheckedTodo: []
+}>()
 
-const sumOfIsChecked = computed(() => {
+const sumOfIsChecked = computed<number>(() => {
   return todos.todos.reduce((acc: any, item: any) => (item.isChecked ? acc + 1 : acc), 0)
 })
 
-const checkboxAllCheck = computed(() => {
+const checkboxAllCheck = computed<boolean>(() => {
   return todos.todos.length !== 0 && sumOfIsChecked.value === todos.todos.length ? true : false
 })
 

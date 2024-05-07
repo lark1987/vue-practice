@@ -1,19 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { nanoid } from 'nanoid'
-import type { Ref } from 'vue'
 import TodoInput from './todolist-header.vue'
 import TodoContent from './todolist-content.vue'
 import TodoFooter from './todolist-footer.vue'
-
-// 可以另包成 todoContentHandler JS 檔
-
-interface Todo {
-  id: string
-  todo: string
-  isChecked: boolean
-  isEdit: boolean
-}
+import type { Todo } from './types'
 
 let todos = ref<Todo[]>([
   {
@@ -36,10 +27,10 @@ let todos = ref<Todo[]>([
   }
 ])
 
-function addTodo(input: Ref) {
+function addTodo(item: string) {
   let newItem = {
     id: nanoid(),
-    todo: input.value,
+    todo: item,
     isChecked: false,
     isEdit: false
   }
@@ -87,7 +78,7 @@ function deleteCheckedTodo() {
   })
 }
 
-function dragTodo(dragId: any, dropId: any) {
+function dragTodo(dragId: string, dropId: string) {
   let cutIndex = todos.value.findIndex((todo) => todo.id === dragId)
   let addIndex = todos.value.findIndex((todo) => todo.id === dropId)
   todos.value.splice(addIndex, 0, todos.value.splice(cutIndex, 1)[0])

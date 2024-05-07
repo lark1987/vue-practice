@@ -1,13 +1,20 @@
 <script setup lang="ts">
 import { nextTick, ref, type Ref } from 'vue'
+import type { Todo } from './types'
 
 const { todos } = defineProps<{
-  todos: any
+  todos: Todo[]
 }>()
 
-const emit = defineEmits(['toggleCheckbox', 'toggleIsEdit', 'updateTodo', 'deleteTodo', 'dragTodo'])
+const emit = defineEmits<{
+  toggleCheckbox: [id: string]
+  toggleIsEdit: [id: string]
+  updateTodo: [id: string, newTodo: string]
+  deleteTodo: [id: string]
+  dragTodo: [dragId: string, dropId: string]
+}>()
 
-let newTodo = ''
+let newTodo: string = ''
 
 let editRefs: Ref<HTMLTextAreaElement[]> = ref([])
 
@@ -19,13 +26,11 @@ async function editTodo(id: string) {
   newTodo = ''
   emit('toggleIsEdit', id)
   await nextTick()
-  editRefs.value.forEach((el: any) => {
-    el.focus()
-  })
+  editRefs.value[0].focus()
 }
 
-function getNewTodoValue(event: any) {
-  newTodo = event.target.value
+function getNewTodoValue(event: Event) {
+  newTodo = (event.target as HTMLTextAreaElement).value
 }
 
 function updateTodo(id: string) {
@@ -45,13 +50,15 @@ function autoResize() {
   textarea.style.height = textarea.scrollHeight + 'px'
 }
 
-function dragStartHandler(event: any, dragId: any) {
-  event.dataTransfer.setData('dragId', dragId)
+function dragStartHandler(event: DragEvent, dragId: string) {
+  event.dataTransfer?.setData('dragId', dragId)
 }
 
-function dropHandler(event: any, dropId: any) {
-  let dragId = event.dataTransfer.getData('dragId')
-  emit('dragTodo', dragId, dropId)
+function dropHandler(event: DragEvent, dropId: string) {
+  let dragId = event.dataTransfer?.getData('dragId')
+  if (dragId) {
+    emit('dragTodo', dragId, dropId)
+  }
 }
 </script>
 
@@ -73,10 +80,10 @@ function dropHandler(event: any, dropId: any) {
           <img v-else src="@/assets/icon/checkbox.svg" alt="checkbox" />
         </label>
         <div
-          class="break-all grow mx-5"
           @click="toggleCheckbox(id)"
           @dblclick="editTodo(id)"
-          title="雙擊左鍵可編輯"
+          title="雙擊可編輯，拖曳可更改順序"
+          class="break-all grow mx-5"
         >
           <span v-if="!isEdit">{{ todo }}</span>
           <textarea
@@ -84,7 +91,7 @@ function dropHandler(event: any, dropId: any) {
             :value="todo"
             @focus="autoResize()"
             @change="getNewTodoValue($event)"
-            @keyup.enter="updateTodo(id)"
+            @keydown.enter="updateTodo(id)"
             @blur="updateTodo(id)"
             ref="editRefs"
             class="w-full outline-0 resize-none bg-slate-200"

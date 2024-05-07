@@ -1,9 +1,15 @@
 <script setup lang="ts">
-const inputValue = defineModel()
-const emits = defineEmits(['addTodo'])
+const inputValue = defineModel<string>()
+
+const emit = defineEmits<{
+  addTodo: [value: string]
+}>()
+
 function handleAddTodo() {
-  emits('addTodo', inputValue)
-  inputValue.value = ''
+  if (inputValue.value) {
+    emit('addTodo', inputValue.value)
+    inputValue.value = ''
+  }
 }
 </script>
 
