@@ -90,11 +90,13 @@ function dragTodo(dragId: string, dropId: string) {
     <TodoInput @addTodo="addTodo"></TodoInput>
     <TodoContent
       :todos
-      @toggleCheckbox="toggleCheckbox"
-      @toggleIsEdit="toggleIsEdit"
-      @updateTodo="updateTodo"
-      @deleteTodo="deleteTodo"
-      @dragTodo="dragTodo"
+      v-on="{
+        toggleCheckbox,
+        toggleIsEdit,
+        updateTodo,
+        deleteTodo,
+        dragTodo
+      }"
     ></TodoContent>
     <TodoFooter
       :todos

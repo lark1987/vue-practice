@@ -4,10 +4,10 @@ import AppTopbar from './components/app-topbar.vue'
 </script>
 
 <template>
-  <nav class="w-1/6">
+  <nav class="sidebar">
     <AppSidebar />
   </nav>
-  <main class="w-5/6">
+  <main class="grow">
     <header class="p-3 bg-slate-500">
       <AppTopbar />
     </header>
@@ -17,4 +17,8 @@ import AppTopbar from './components/app-topbar.vue'
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.sidebar {
+  min-width: 100px;
+}
+</style>
