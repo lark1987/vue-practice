@@ -19,6 +19,6 @@ import AppTopbar from './components/app-topbar.vue'
 
 <style scoped>
 .sidebar {
-  min-width: 100px;
+  width: 10vw;
 }
 </style>

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 const routes = [
-  { name: 'HomePage', path: '/homepage' },
-  { name: 'TodoList', path: '/todolist' }
+  { name: 'Home', path: '/homepage' },
+  { name: 'Todo List', path: '/todolist' },
+  { name: 'Carousel', path: '/Carousel' }
 ]
 </script>
 
