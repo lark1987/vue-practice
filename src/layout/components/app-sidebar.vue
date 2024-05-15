@@ -7,7 +7,7 @@ const routes = [
 </script>
 
 <template>
-  <div class="bg-blue-100 h-screen">
+  <div class="w-40 bg-blue-100 h-screen">
     <RouterLink
       v-for="(item, index) in routes"
       :key="index"

@@ -4,10 +4,10 @@ import AppTopbar from './components/app-topbar.vue'
 </script>
 
 <template>
-  <nav class="sidebar">
+  <nav>
     <AppSidebar />
   </nav>
-  <main class="grow">
+  <main>
     <header class="p-3 bg-slate-500">
       <AppTopbar />
     </header>
@@ -18,7 +18,7 @@ import AppTopbar from './components/app-topbar.vue'
 </template>
 
 <style scoped>
-.sidebar {
-  width: 10vw;
+header {
+  width: calc(100vw - 10rem);
 }
 </style>
