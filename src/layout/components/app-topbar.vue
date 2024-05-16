@@ -1,7 +1,14 @@
-<template>
-  <div class="topbar">我是topbar</div>
-</template>
+<script setup lang="ts">
+const emit = defineEmits(['toggleMenu'])
+function handleToggleMenu() {
+  emit('toggleMenu')
+}
+</script>
 
-<script setup lang="ts"></script>
+<template>
+  <div @click="handleToggleMenu" class="w-6">
+    <img src="@/assets/icon/menu.svg" alt="menu" />
+  </div>
+</template>
 
 <style scoped></style>

@@ -42,11 +42,6 @@ onMounted(() => {
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev'
-    },
-    on: {
-      init: function () {
-        console.log('swiper initialized')
-      }
     }
   })
   swiper1.on('realIndexChange', function () {
@@ -57,7 +52,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex">
+  <div class="block xl:flex">
     <div class="swiper1 mb-12">
       <div class="swiper-wrapper">
         <div class="swiper-slide"><img src="@/assets/picture/pic-1.jpg" /></div>
