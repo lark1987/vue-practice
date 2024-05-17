@@ -76,8 +76,13 @@ function dropHandler(event: DragEvent, dropId: string) {
       >
         <label class="cursor-pointer">
           <input type="checkbox" :checked="isChecked" @change="toggleCheckbox(id)" class="hidden" />
-          <img v-if="isChecked" src="@/assets/icon/checkbox-checked.svg" alt="checkbox" />
-          <img v-else src="@/assets/icon/checkbox.svg" alt="checkbox" />
+          <img
+            :src="
+              isChecked ? 'src/assets/icon/checkbox-checked.svg' : 'src/assets/icon/checkbox.svg'
+            "
+            alt="checkbox"
+            class="w-[20px] max-w-none"
+          />
         </label>
         <div
           @click="toggleCheckbox(id)"
@@ -99,16 +104,11 @@ function dropHandler(event: DragEvent, dropId: string) {
         </div>
 
         <div @click="deleteTodo(id)" class="whitespace-nowrap cursor-pointer">
-          <img src="@/assets/icon/trash-can.svg" alt="delete" />
+          <img class="w-[20px] max-w-none" src="@/assets/icon/trash-can.svg" alt="delete" />
         </div>
       </li>
     </ul>
   </div>
 </template>
 
-<style scoped>
-img {
-  width: 20px;
-  max-width: none;
-}
-</style>
+<style scoped></style>
