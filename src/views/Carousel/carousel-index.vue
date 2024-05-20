@@ -55,20 +55,20 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="block xl:flex">
-    <div class="swiper1 relative mb-12 w-[50vw]">
+  <div class="block md:flex">
+    <div class="swiper1 relative mx-[auto] mb-10 w-[90vw] pt-8 md:w-[50vw]">
       <div class="swiper-wrapper">
         <div class="swiper-slide aspect-video" v-for="(item, key) in carouselText" :key="key">
           <img class="h-full w-full object-cover" :src="item.src" :alt="item.title" />
         </div>
       </div>
-      <div class="swiper-pagination"></div>
+      <div class="swiper-pagination -mb-10"></div>
       <div class="swiper-button-prev bg-[url('src/assets/icon/arrow-prev.svg')]"></div>
       <div class="swiper-button-next bg-[url('src/assets/icon/arrow-next.svg')]"></div>
     </div>
-    <div class="p-12">
-      <h4 class="pb-3 pt-20 text-3xl text-gray-800">{{ picTitle }}</h4>
-      <p class="text-xl text-gray-500">{{ picContent }}</p>
+    <div class="p-5 md:w-[50vw] md:pt-[5%]">
+      <h4 class="pb-3 text-2xl text-gray-800">{{ picTitle }}</h4>
+      <p class="text-gray-500 xl:w-[40vw]">{{ picContent }}</p>
     </div>
   </div>
 </template>
@@ -84,10 +84,6 @@ div[class^='swiper-button'] {
 .swiper-button-prev::after,
 .swiper-button-next::after {
   content: none;
-}
-
-.swiper-pagination {
-  margin-bottom: -30px;
 }
 </style>
 

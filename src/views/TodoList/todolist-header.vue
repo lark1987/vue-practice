@@ -14,7 +14,7 @@ function handleAddTodo() {
 </script>
 
 <template>
-  <div class="w-[100vw] p-3">
+  <div class="w-full p-3">
     <input
       placeholder="請輸入待辦事項"
       v-model="inputValue"

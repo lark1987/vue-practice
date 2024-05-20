@@ -4,10 +4,10 @@ import AppSidebar from './components/app-sidebar.vue'
 import AppTopbar from './components/app-topbar.vue'
 
 let openMenu = ref(false)
+
 function toggleMenu() {
   openMenu.value = !openMenu.value
 }
-
 function closeMenu() {
   openMenu.value = false
 }
@@ -27,8 +27,4 @@ function closeMenu() {
   </main>
 </template>
 
-<style scoped>
-/* header {
-  width: calc(100vw - 10rem);
-} */
-</style>
+<style scoped></style>
