@@ -63,12 +63,12 @@ function dropHandler(event: DragEvent, dropId: string) {
 </script>
 
 <template>
-  <div class="mb-10">
+  <div>
     <ul>
       <li
         v-for="{ id, todo, isChecked, isEdit } in todos"
         :key="id"
-        class="flex items-center p-3 hover:bg-slate-200 hover:rounded-xl"
+        class="flex items-center p-3 hover:rounded-xl hover:bg-slate-200 xl:my-5 xl:p-5"
         draggable="true"
         @dragstart="dragStartHandler($event, id)"
         @drop="dropHandler($event, id)"
@@ -81,14 +81,14 @@ function dropHandler(event: DragEvent, dropId: string) {
               isChecked ? 'src/assets/icon/checkbox-checked.svg' : 'src/assets/icon/checkbox.svg'
             "
             alt="checkbox"
-            class="w-[20px] max-w-none"
+            class="w-[20px] max-w-none xl:w-[40px]"
           />
         </label>
         <div
           @click="toggleCheckbox(id)"
           @dblclick="editTodo(id)"
           title="雙擊可編輯，拖曳可更改順序"
-          class="break-all grow mx-5"
+          class="mx-5 grow break-all xl:mx-10"
         >
           <span v-if="!isEdit">{{ todo }}</span>
           <textarea
@@ -99,12 +99,16 @@ function dropHandler(event: DragEvent, dropId: string) {
             @keydown.enter="updateTodo(id)"
             @blur="updateTodo(id)"
             ref="editRefs"
-            class="w-full outline-0 resize-none bg-slate-200"
+            class="w-full resize-none bg-slate-200 outline-0"
           ></textarea>
         </div>
 
-        <div @click="deleteTodo(id)" class="whitespace-nowrap cursor-pointer">
-          <img class="w-[20px] max-w-none" src="@/assets/icon/trash-can.svg" alt="delete" />
+        <div @click="deleteTodo(id)" class="cursor-pointer whitespace-nowrap">
+          <img
+            class="w-[20px] max-w-none xl:w-[40px]"
+            src="@/assets/icon/trash-can.svg"
+            alt="delete"
+          />
         </div>
       </li>
     </ul>

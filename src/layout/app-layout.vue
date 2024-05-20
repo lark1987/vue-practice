@@ -1,20 +1,24 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import AppSidebar from './components/app-sidebar.vue'
 import AppTopbar from './components/app-topbar.vue'
 
-let openMenu = false
+let openMenu = ref(false)
 function toggleMenu() {
-  openMenu = !openMenu
-  console.log(openMenu)
+  openMenu.value = !openMenu.value
+}
+
+function closeMenu() {
+  openMenu.value = false
 }
 </script>
 
 <template>
   <nav>
-    <AppSidebar :openMenu />
+    <AppSidebar :openMenu @closeMenu="closeMenu" />
   </nav>
   <main>
-    <header class="p-3 bg-slate-500">
+    <header class="bg-slate-500 p-3">
       <AppTopbar @toggleMenu="toggleMenu" />
     </header>
     <section class="bg-gray-100">

@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { nanoid } from 'nanoid'
 import TodoInput from './todolist-header.vue'
 import TodoContent from './todolist-content.vue'
-import TodoFooter from './todolist-footer.vue'
+import TodoTool from './todolist-tool.vue'
 import type { Todo } from './types'
 
 let todos = ref<Todo[]>([
@@ -83,11 +83,14 @@ function dragTodo(dragId: string, dropId: string) {
   let addIndex = todos.value.findIndex((todo) => todo.id === dropId)
   todos.value.splice(addIndex, 0, todos.value.splice(cutIndex, 1)[0])
 }
+
+const classTablet = ['xl:w-[80vw]', 'xl:m-[auto]', 'xl:text-2xl']
 </script>
 
 <template>
-  <div class="p-10">
-    <TodoInput @addTodo="addTodo"></TodoInput>
+  <div class="w-[100vw] pb-10">
+    <TodoInput @addTodo="addTodo" :class="classTablet"></TodoInput>
+
     <TodoContent
       :todos
       v-on="{
@@ -97,13 +100,16 @@ function dragTodo(dragId: string, dropId: string) {
         deleteTodo,
         dragTodo
       }"
+      :class="classTablet"
     ></TodoContent>
-    <TodoFooter
+
+    <TodoTool
       :todos
       @toggleAllCheckbox="toggleAllCheckbox"
       @deleteCheckedTodo="deleteCheckedTodo"
-    ></TodoFooter>
+      :class="classTablet"
+    ></TodoTool>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style scoped></style>

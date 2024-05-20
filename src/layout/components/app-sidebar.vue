@@ -5,22 +5,30 @@ const routes = [
   { name: 'Carousel', path: '/Carousel', icon: 'src/assets/icon/menu-carousel.svg' }
 ]
 
-const openMenu = defineProps(['openMenu'])
+const { openMenu } = defineProps(['openMenu'])
+const emit = defineEmits(['closeMenu'])
+function handleCloseMenu() {
+  emit('closeMenu')
+}
 </script>
 
 <template>
-  <!-- <div class="w-40 bg-blue-100 h-screen" :class="openMenu?block:hidden"> -->
-  <div :class="['w-40 bg-blue-100 h-screen', openMenu ? 'block' : 'hidden']">
+  <div :class="['h-full w-40 bg-blue-100', openMenu ? 'absolute z-50' : 'hidden']">
     <RouterLink
       v-for="(item, index) in routes"
       :key="index"
       :to="item.path"
-      class="flex hover:bg-blue-200 p-3"
+      class="flex p-3 hover:bg-blue-200"
+      @click="handleCloseMenu"
     >
       <img class="w-6" :src="item.icon" :alt="item.name" />
       <span class="pl-4">{{ item.name }}</span>
     </RouterLink>
   </div>
+  <div
+    :class="['h-full w-full bg-black opacity-30', openMenu ? 'absolute z-40' : 'hidden']"
+    @click="handleCloseMenu"
+  ></div>
 </template>
 
 <style scoped></style>
