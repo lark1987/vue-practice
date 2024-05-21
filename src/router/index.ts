@@ -3,6 +3,7 @@ import Layout from '@/layout/app-layout.vue'
 import HomePage from '@/views/HomePage/homepage-index.vue'
 import TodoList from '@/views/TodoList/todolist-index.vue'
 import Carousel from '@/views/Carousel/carousel-index.vue'
+import TicTacToe from '@/views/TicTacToe/tic-tac-toe.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
           path: 'carousel',
           name: 'carousel',
           component: Carousel
+        },
+        {
+          path: 'tictactoe',
+          name: 'tictactoe',
+          component: TicTacToe
         }
       ]
     }
