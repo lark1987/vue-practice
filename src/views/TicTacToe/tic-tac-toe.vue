@@ -51,43 +51,47 @@ watch(winner, (value) => {
 </script>
 
 <template>
-  <div class="bigbox">
-    <div class="info">
-      <span>當前玩家：{{ player }}</span>
+  <div class="bigbox w-[100vw] p-[5vw] md:flex">
+    <div class="info flex pb-10 md:order-1 md:block md:text-center">
+      <span class="grow self-center md:leading-10">當前玩家：{{ player }}</span
+      ><br />
       <button class="btn" @click="restart">Restart</button>
     </div>
 
-    <div class="box">
-      <div v-for="(item, index) in board" :key="index" class="item" @click="makeMove(index)">
+    <div
+      class="box grid grid-cols-[30vw,30vw,30vw] grid-rows-[30vw,30vw,30vw] justify-center gap-1.5 md:w-[50vw] md:grid-cols-[15vw,15vw,15vw] md:grid-rows-[15vw,15vw,15vw]"
+    >
+      <div
+        v-for="(item, index) in board"
+        :key="index"
+        @click="makeMove(index)"
+        class="item grid h-full w-full place-items-center bg-gray-400 text-[20vw] hover:bg-gray-600 md:text-[10vw]"
+      >
         <span>{{ item }}</span>
       </div>
     </div>
 
-    <div :class="['over', checkWinner ? 'block' : 'hidden']">
+    <div
+      :class="[
+        'over absolute left-[50%] top-[50%] z-20 w-[50vw] translate-x-[-50%] translate-y-[-50%] rounded bg-blue-100 p-5 text-center text-xl font-bold ',
+        checkWinner ? 'block' : 'hidden'
+      ]"
+    >
       <h4>Game Over</h4>
-      <span>the winner is {{ checkWinner }}</span
+      <span class="leading-loose">the winner is {{ checkWinner }}</span
       ><br />
       <button @click="restart">Restart</button>
     </div>
-    <div :class="['overlay', checkWinner ? 'block' : 'hidden']"></div>
+    <div
+      :class="[
+        'overlay absolute left-0 top-0 z-10 h-[100vh] w-[100vw] overflow-hidden bg-black opacity-50',
+        checkWinner ? 'block' : 'hidden'
+      ]"
+    ></div>
   </div>
 </template>
 
 <style scoped>
-.bigbox {
-  width: 100vw;
-  padding: 5vw;
-}
-
-.info {
-  display: flex;
-  padding-bottom: 10px;
-}
-.info > span {
-  align-self: center;
-  flex-grow: 1;
-}
-
 button {
   padding: 5px;
   background-color: #9ccacb;
@@ -95,57 +99,5 @@ button {
 }
 button:hover {
   background-color: rgb(121, 167, 187);
-}
-
-.box {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 5px;
-  justify-content: center;
-}
-
-.item {
-  width: 30vw;
-  height: 30vw;
-  background-color: lightgray;
-  display: grid;
-  place-items: center;
-  font-size: 20vw;
-}
-.item:hover {
-  background-color: gray;
-}
-
-.over {
-  position: absolute;
-  z-index: 20;
-  width: 50vw;
-
-  background-color: aliceblue;
-  padding: 10px;
-  text-align: center;
-
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: larger;
-}
-.over > span {
-  line-height: 4;
-}
-
-.overlay {
-  background-color: black;
-  opacity: 0.5;
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  z-index: 10;
 }
 </style>
