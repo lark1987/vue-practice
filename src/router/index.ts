@@ -5,6 +5,7 @@ import TodoList from '@/views/TodoList/todolist-index.vue'
 import Carousel from '@/views/Carousel/carousel-index.vue'
 import TicTacToe from '@/views/TicTacToe/tic-tac-toe.vue'
 import Ajax from '@/views/Ajax/ajax-index.vue'
+import Chart from '@/views/Chart/chart-index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,11 @@ const router = createRouter({
           path: 'ajax',
           name: 'ajax',
           component: Ajax
+        },
+        {
+          path: 'chart',
+          name: 'chart',
+          component: Chart
         }
       ]
     }
