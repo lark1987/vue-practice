@@ -43,31 +43,40 @@ const barChartOption = ref({
         ['2023', 96000, 72000, 50000, 80000],
         ['2024', 120000, 108000, 30000, 30000]
       ]
+    },
+    {
+      transform: {
+        type: 'filter',
+        config: { dimension: 'Year', value: 2022 }
+      }
     }
   ],
-  series: [
-    { type: 'bar', xAxisIndex: 0, yAxisIndex: 0 },
-    { type: 'bar', xAxisIndex: 0, yAxisIndex: 0 },
-    { type: 'bar', xAxisIndex: 0, yAxisIndex: 0 },
-    { type: 'line', xAxisIndex: 0, yAxisIndex: 0 },
+  series: [{ type: 'bar' }, { type: 'bar' }, { type: 'bar' }, { type: 'line' }],
 
-    { type: 'bar', seriesLayoutBy: 'row', xAxisIndex: 1, yAxisIndex: 1 },
-    { type: 'bar', seriesLayoutBy: 'row', xAxisIndex: 1, yAxisIndex: 1 },
-    { type: 'bar', seriesLayoutBy: 'row', xAxisIndex: 1, yAxisIndex: 1 }
-  ],
   xAxis: [
-    { type: 'category', gridIndex: 0 },
-    { type: 'category', gridIndex: 1 }
+    {
+      type: 'category',
+      data: ['2022', '2023', '2024'],
+      axisPointer: {
+        type: 'shadow'
+      }
+    }
   ],
-  yAxis: [{ gridIndex: 0 }, { gridIndex: 1 }],
-  grid: [{ bottom: '55%' }, { top: '55%' }],
-
+  yAxis: [
+    {
+      type: 'value',
+      axisLabel: {
+        formatter: '${value}'
+      }
+    }
+  ],
   title: {
     text: 'Annual Expenditure',
     left: 'center'
   },
   legend: {
-    bottom: '0'
+    data: ['Rent', 'Food', 'Entertainment', 'Surplus'],
+    bottom: '0px'
   },
   tooltip: {
     axisPointer: {
@@ -203,7 +212,7 @@ const test = ref({
 <style scoped>
 .barChart {
   width: 90vw;
-  height: 70vh;
+  height: 50vh;
   margin-bottom: 100px;
 }
 .pieChart {
