@@ -1,7 +1,7 @@
 <script setup>
 // import * as echarts from 'echarts'
-import { use } from 'echarts/core'
-import { PieChart, BarChart, LineChart } from 'echarts/charts'
+import { registerTheme, registerMap, use } from 'echarts/core'
+import { PieChart, BarChart, LineChart, MapChart } from 'echarts/charts'
 import {
   TitleComponent,
   ToolboxComponent,
@@ -9,17 +9,24 @@ import {
   GridComponent,
   LegendComponent,
   DatasetComponent,
-  TransformComponent
+  TransformComponent,
+  GraphicComponent,
+  VisualMapComponent,
+  GeoComponent
 } from 'echarts/components'
 import { UniversalTransition } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
-import VChart, { THEME_KEY } from 'vue-echarts'
-import { ref, provide, onMounted } from 'vue'
+import VChart from 'vue-echarts'
+import { ref, onMounted } from 'vue'
+import themeLight from './theme-light.json'
+import themeDark from './theme-dark.json'
+import taiwanGeoJson from './taiwan-map-geo.json'
 
 use([
   PieChart,
   BarChart,
   LineChart,
+  MapChart,
   TitleComponent,
   ToolboxComponent,
   TooltipComponent,
@@ -27,12 +34,18 @@ use([
   GridComponent,
   DatasetComponent,
   TransformComponent,
+  GraphicComponent,
+  VisualMapComponent,
+  GeoComponent,
   CanvasRenderer,
   UniversalTransition
 ])
 
-// 這裡還不懂
-// provide(THEME_KEY, 'dark')
+registerTheme('themeLight', themeLight)
+registerTheme('themeDark', themeDark)
+registerMap('taiwan', taiwanGeoJson)
+
+const currentTheme = ref('themeLight')
 
 const data = [
   {
@@ -40,51 +53,75 @@ const data = [
     Rent: 72000,
     Food: 48000,
     Play: 80000,
-    Surplus: 50000,
-    Total: 72000 + 48000 + 80000
+    Surplus: 50000
   },
   {
     Year: '2023',
     Rent: 96000,
     Food: 72000,
     Play: 50000,
-    Surplus: 80000,
-    Total: 96000 + 72000 + 50000
+    Surplus: 80000
   },
   {
     Year: '2024',
     Rent: 120000,
     Food: 108000,
     Play: 30000,
-    Surplus: 30000,
-    Total: 120000 + 108000 + 30000
+    Surplus: 30000
   }
 ]
 
+const mapData = [
+  { name: '連江縣', value: 100 },
+  { name: '宜蘭縣', value: 100 },
+  { name: '彰仁縣', value: 100 },
+  { name: '南投縣', value: 100 },
+  { name: '雲林縣', value: 100 },
+  { name: '基隆市', value: 100 },
+  { name: '臺北市', value: 100 },
+  { name: '新北市', value: 100 },
+  { name: '臺中市', value: 100 },
+  { name: '臺南市', value: 100 },
+  { name: '桃園市', value: 100 },
+  { name: '苗栗縣', value: 100 },
+  { name: '嘉義市', value: 100 },
+  { name: '嘉義縣', value: 100 },
+  { name: '金門縣', value: 100 },
+  { name: '高雄市', value: 100 },
+  { name: '臺東縣', value: 100 },
+  { name: '花蓮縣', value: 100 },
+  { name: '澎湖縣', value: 100 },
+  { name: '新竹市', value: 100 },
+  { name: '新竹縣', value: 100 },
+  { name: '屏東縣', value: 100 }
+]
+
+function calBarChartSource(data) {
+  const header = ['Year', 'Rent', 'Food', 'Play', 'Surplus']
+  const barChartSource = data.map((item) => [
+    item.Year,
+    item.Rent / 1000,
+    item.Food / 1000,
+    item.Play / 1000,
+    item.Surplus / 1000
+  ])
+  barChartSource.unshift(header)
+
+  return barChartSource
+}
+const barChartSource = calBarChartSource(data)
+
 const barChartOption = ref({
-  dataset: [
-    {
-      source: [
-        ['Year', 'Rent', 'Food', 'Play', 'Surplus'],
-        ['2022', 72000 / 1000, 48000 / 1000, 80000 / 1000, 50000 / 1000],
-        ['2023', 96000 / 1000, 72000 / 1000, 50000 / 1000, 80000 / 1000],
-        ['2024', 120000 / 1000, 108000 / 1000, 30000 / 1000, 30000 / 1000]
-      ]
-    }
-  ],
+  dataset: {
+    source: barChartSource
+  },
   series: [
     { type: 'bar' },
     { type: 'bar' },
     { type: 'bar' },
     { type: 'line' },
 
-    {
-      type: 'bar',
-      seriesLayoutBy: 'row',
-      xAxisIndex: 1,
-      yAxisIndex: 1,
-      color: '#c7c7c7'
-    },
+    { type: 'bar', seriesLayoutBy: 'row', xAxisIndex: 1, yAxisIndex: 1, color: '#c7c7c7' },
     { type: 'bar', seriesLayoutBy: 'row', xAxisIndex: 1, yAxisIndex: 1, color: '#a19c9c' },
     { type: 'bar', seriesLayoutBy: 'row', xAxisIndex: 1, yAxisIndex: 1, color: '#787575' }
   ],
@@ -133,8 +170,16 @@ const barChartOption = ref({
   },
   toolbox: {
     feature: {
+      myThemeSwitcher: {
+        show: true,
+        title: 'Dark Mode',
+        icon: 'path://M432.45,595.444c0,2.177-4.661,6.82-11.305,6.82c-6.475,0-11.306-4.567-11.306-6.82s4.852-6.812,11.306-6.812C427.841,588.632,432.452,593.191,432.45,595.444L432.45,595.444z M421.155,589.876c-3.009,0-5.448,2.495-5.448,5.572s2.439,5.572,5.448,5.572c3.01,0,5.449-2.495,5.449-5.572C426.604,592.371,424.165,589.876,421.155,589.876L421.155,589.876z M421.146,591.891c-1.916,0-3.47,1.589-3.47,3.549c0,1.959,1.554,3.548,3.47,3.548s3.469-1.589,3.469-3.548C424.614,593.479,423.062,591.891,421.146,591.891L421.146,591.891zM421.146,591.891',
+        onclick: function () {
+          currentTheme.value = currentTheme.value === 'themeLight' ? 'themeDark' : 'themeLight'
+        }
+      },
       dataView: { show: true, readOnly: false },
-      magicType: { show: true, type: ['line', 'bar'] },
+      magicType: { show: true, type: ['line'] },
       restore: { show: true },
       saveAsImage: { show: true }
     }
@@ -177,7 +222,6 @@ const pieChartOption = ref({
   ],
   series: [
     {
-      name: '嗨嗨',
       type: 'pie',
       radius: [20, 40],
       center: ['20%', '50%'],
@@ -214,18 +258,74 @@ const pieChartOption = ref({
       }
     }
   ],
-  graphic: {
-    type: 'text',
-    left: 'center',
-    top: 'center',
-    style: {
-      text: '嗨嗨',
-      textAlign: 'center',
-      fill: '#000',
-      fontSize: 20,
-      fontWeight: 'bold'
+  graphic: [
+    {
+      type: 'text',
+      left: '15%',
+      bottom: 0,
+      style: {
+        text: '2022',
+        textAlign: 'center',
+        fill: '#000',
+        fontSize: 20,
+        fontWeight: 'bold'
+      }
+    },
+    {
+      type: 'text',
+      left: ' 45%',
+      bottom: 0,
+      style: {
+        text: '2023',
+        textAlign: 'center',
+        fill: '#000',
+        fontSize: 20,
+        fontWeight: 'bold'
+      }
+    },
+    {
+      type: 'text',
+      left: ' 75%',
+      bottom: 0,
+      style: {
+        text: '2024',
+        textAlign: 'center',
+        fill: '#000',
+        fontSize: 20,
+        fontWeight: 'bold'
+      }
     }
-  }
+  ]
+})
+
+const mapOption = ref({
+  title: {
+    text: '台灣行政區人口數量'
+  },
+  // tooltip: {
+  //   show: true,
+  //   trigger: 'item'
+  // },
+  series: [
+    {
+      type: 'map',
+      map: 'taiwan',
+      layoutCenter: ['40%', '50%'],
+      layoutSize: 270,
+      roam: true,
+      label: {
+        show: true,
+        color: '#ffffff',
+        fontSize: 10
+      }
+      // emphasis: {
+      //   label: {
+      //     show: true
+      //   }
+      // },
+      // data: mapData
+    }
+  ]
 })
 
 function handleResize() {
@@ -239,8 +339,9 @@ onMounted(() => {
 
 <template>
   <div class="bigbox">
-    <v-chart class="barChart" :option="barChartOption" autoresize />
-    <v-chart class="pieChart" :option="pieChartOption" autoresize />
+    <v-chart class="barChart" :option="barChartOption" :theme="currentTheme" autoresize />
+    <v-chart class="pieChart" :option="pieChartOption" theme="themeLight" autoresize />
+    <v-chart class="mapChart" :option="mapOption" autoresize />
   </div>
 </template>
 
@@ -251,16 +352,28 @@ onMounted(() => {
 }
 .barChart {
   width: 90%;
-  height: 100vw;
+  height: 360px;
   margin: 0 auto;
   @media screen and (min-width: 800px) {
     width: 50%;
-    height: 50vw;
   }
 }
 .pieChart {
   width: 90%;
-  height: 50vw;
+  height: 180px;
   margin: 0 auto;
+  @media screen and (min-width: 800px) {
+    width: 40%;
+  }
+  @media screen and (min-width: 2000px) {
+    width: 20%;
+  }
+}
+
+.mapChart {
+  /* background-color: rgb(209, 158, 158); */
+  width: 400px;
+  height: 400px;
+  margin: 50px auto;
 }
 </style>
