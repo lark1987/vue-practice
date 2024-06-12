@@ -18,7 +18,7 @@ function closeMenu() {
     <AppSidebar :openMenu @closeMenu="closeMenu" />
   </nav>
   <main>
-    <header class="bg-slate-500 p-3">
+    <header class="w-[100vw] overflow-hidden bg-slate-500 p-3">
       <AppTopbar @toggleMenu="toggleMenu" />
     </header>
     <section class="bg-gray-100">

@@ -49,21 +49,21 @@ const checkWinner = computed(() => {
 </script>
 
 <template>
-  <div class="w-[100vw] p-[5vw] md:flex">
-    <div class="flex pb-10 md:order-1 md:block md:text-center md:text-3xl">
+  <div class="mx-[auto] my-0 w-[90%] md:flex">
+    <div class="flex py-5 md:order-1 md:block md:text-center md:text-3xl">
       <span class="grow self-center md:leading-[100px]">當前玩家：{{ player }}</span
       ><br />
       <ButtonRestart @click="restart" />
     </div>
 
     <div
-      class="grid grid-cols-[30vw,30vw,30vw] grid-rows-[30vw,30vw,30vw] justify-center gap-1.5 md:w-[50vw] md:grid-cols-[15vw,15vw,15vw] md:grid-rows-[15vw,15vw,15vw]"
+      class="grid aspect-square grid-cols-[32%,32%,32%] grid-rows-[32%,32%,32%] justify-center gap-[1%] text-[4rem] md:w-[50vw] md:grid-cols-[15vw,15vw,15vw] md:grid-rows-[15vw,15vw,15vw]"
     >
       <div
         v-for="(item, index) in board"
         :key="index"
         @click="makeMove(index)"
-        class="grid h-full w-full place-items-center bg-gray-400 text-[20vw] hover:bg-gray-600 md:text-[10vw]"
+        class="grid place-items-center bg-gray-400 hover:bg-gray-600"
       >
         <span>{{ item }}</span>
       </div>

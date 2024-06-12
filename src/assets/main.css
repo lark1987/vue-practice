@@ -6,3 +6,7 @@
   display: flex;
   font-family: '微軟正黑體';
 }
+
+body {
+  overflow-x: hidden;
+}

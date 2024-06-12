@@ -1,6 +1,7 @@
 <script setup>
-// import * as echarts from 'echarts'
+import VChart from 'vue-echarts'
 import { registerTheme, registerMap, use } from 'echarts/core'
+
 import { PieChart, BarChart, LineChart, MapChart } from 'echarts/charts'
 import {
   TitleComponent,
@@ -16,11 +17,13 @@ import {
 } from 'echarts/components'
 import { UniversalTransition } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
-import VChart from 'vue-echarts'
-import { ref, onMounted } from 'vue'
+
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import themeLight from './theme-light.json'
 import themeDark from './theme-dark.json'
 import taiwanGeoJson from './taiwan-map-geo.json'
+import { barChartSource } from './data-bar.ts'
+import mapData from './data-map.ts'
 
 use([
   PieChart,
@@ -47,69 +50,7 @@ registerMap('taiwan', taiwanGeoJson)
 
 const currentTheme = ref('themeLight')
 
-const data = [
-  {
-    Year: '2022',
-    Rent: 72000,
-    Food: 48000,
-    Play: 80000,
-    Surplus: 50000
-  },
-  {
-    Year: '2023',
-    Rent: 96000,
-    Food: 72000,
-    Play: 50000,
-    Surplus: 80000
-  },
-  {
-    Year: '2024',
-    Rent: 120000,
-    Food: 108000,
-    Play: 30000,
-    Surplus: 30000
-  }
-]
-
-const mapData = [
-  { name: '連江縣', value: 100 },
-  { name: '宜蘭縣', value: 100 },
-  { name: '彰仁縣', value: 100 },
-  { name: '南投縣', value: 100 },
-  { name: '雲林縣', value: 100 },
-  { name: '基隆市', value: 100 },
-  { name: '臺北市', value: 100 },
-  { name: '新北市', value: 100 },
-  { name: '臺中市', value: 100 },
-  { name: '臺南市', value: 100 },
-  { name: '桃園市', value: 100 },
-  { name: '苗栗縣', value: 100 },
-  { name: '嘉義市', value: 100 },
-  { name: '嘉義縣', value: 100 },
-  { name: '金門縣', value: 100 },
-  { name: '高雄市', value: 100 },
-  { name: '臺東縣', value: 100 },
-  { name: '花蓮縣', value: 100 },
-  { name: '澎湖縣', value: 100 },
-  { name: '新竹市', value: 100 },
-  { name: '新竹縣', value: 100 },
-  { name: '屏東縣', value: 100 }
-]
-
-function calBarChartSource(data) {
-  const header = ['Year', 'Rent', 'Food', 'Play', 'Surplus']
-  const barChartSource = data.map((item) => [
-    item.Year,
-    item.Rent / 1000,
-    item.Food / 1000,
-    item.Play / 1000,
-    item.Surplus / 1000
-  ])
-  barChartSource.unshift(header)
-
-  return barChartSource
-}
-const barChartSource = calBarChartSource(data)
+const mapItem = ref(null)
 
 const barChartOption = ref({
   dataset: {
@@ -151,8 +92,8 @@ const barChartOption = ref({
 
   title: {
     text: 'Annual Expenditure',
-    left: 0,
-    subtext: '單位(千元)'
+    left: window.innerWidth > 800 ? 'center' : 0,
+    subtext: '單位：千元'
   },
 
   legend: {
@@ -190,15 +131,15 @@ const pieChartOption = ref({
     {
       source: [
         ['Item', 'Expend', 'Year'],
-        ['Rent', 72000 / 200000, 2022],
-        ['Food', 48000 / 200000, 2022],
-        ['Play', 80000 / 200000, 2022],
-        ['Rent', 96000 / 218000, 2023],
-        ['Food', 72000 / 218000, 2023],
-        ['Play', 50000 / 218000, 2023],
-        ['Rent', 120000 / 258000, 2024],
-        ['Food', 108000 / 258000, 2024],
-        ['Play', 30000 / 258000, 2024]
+        ['Rent', 72 / 200, 2022],
+        ['Food', 48 / 200, 2022],
+        ['Play', 80 / 200, 2022],
+        ['Rent', 96 / 218, 2023],
+        ['Food', 72 / 218, 2023],
+        ['Play', 50 / 218, 2023],
+        ['Rent', 120 / 258, 2024],
+        ['Food', 108 / 258, 2024],
+        ['Play', 30 / 258, 2024]
       ]
     },
     {
@@ -295,85 +236,113 @@ const pieChartOption = ref({
         fontWeight: 'bold'
       }
     }
-  ]
+  ],
+  tooltip: {
+    formatter: '{b}'
+  }
 })
-
-const mapOption = ref({
+const mapChartOption = ref({
   title: {
-    text: '台灣行政區人口數量'
+    text: '台灣行政區人口數量',
+    subtext: '單位：萬人',
+    left: 'center'
   },
-  // tooltip: {
-  //   show: true,
-  //   trigger: 'item'
-  // },
-  series: [
-    {
-      type: 'map',
-      map: 'taiwan',
-      layoutCenter: ['40%', '50%'],
-      layoutSize: 270,
-      roam: true,
+  tooltip: {
+    show: true,
+    trigger: 'item',
+    formatter: '{b}<br/>{c}萬人'
+  },
+  series: {
+    type: 'map',
+    map: 'taiwan',
+    emphasis: {
       label: {
-        show: true,
-        color: '#ffffff',
-        fontSize: 10
+        color: 'black'
+      },
+      itemStyle: {
+        areaColor: '#d19e9e'
       }
-      // emphasis: {
-      //   label: {
-      //     show: true
-      //   }
-      // },
-      // data: mapData
+    },
+    left: 10,
+    top: window.innerWidth > 1200 ? 850 : 440,
+    zoom: 5,
+    data: mapData
+  },
+  visualMap: {
+    min: 0,
+    max: 410,
+    text: ['High', 'Low'],
+    realtime: false,
+    calculable: true,
+    inRange: {
+      color: ['#F6EDD3', '#CCD9CE', '#9AC0BA', '#5B9496']
     }
-  ]
+  }
 })
 
 function handleResize() {
   barChartOption.value.title.left = window.innerWidth > 800 ? 'center' : 0
+  mapChartOption.value.series.top = window.innerWidth > 1200 ? 850 : 440
+  mapItem.value.resize()
 }
 
 onMounted(() => {
   window.addEventListener('resize', handleResize)
 })
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize)
+})
 </script>
 
 <template>
   <div class="bigbox">
-    <v-chart class="barChart" :option="barChartOption" :theme="currentTheme" autoresize />
-    <v-chart class="pieChart" :option="pieChartOption" theme="themeLight" autoresize />
-    <v-chart class="mapChart" :option="mapOption" autoresize />
+    <div class="box1">
+      <v-chart class="barChart" :option="barChartOption" :theme="currentTheme" autoresize />
+      <v-chart class="pieChart" :option="pieChartOption" theme="themeLight" autoresize />
+    </div>
+    <v-chart class="mapChart" ref="mapItem" :option="mapChartOption" autoresize />
   </div>
 </template>
 
 <style scoped>
 .bigbox {
   width: 100vw;
-  overflow-x: hidden;
+  @media screen and (min-width: 1200px) {
+    display: flex;
+    justify-content: center;
+  }
+}
+.box1 {
+  width: 100%;
+  @media screen and (min-width: 1200px) {
+    width: 50%;
+  }
 }
 .barChart {
   width: 90%;
   height: 360px;
-  margin: 0 auto;
-  @media screen and (min-width: 800px) {
-    width: 50%;
-  }
+  margin: 50px auto 0 auto;
 }
 .pieChart {
   width: 90%;
   height: 180px;
   margin: 0 auto;
-  @media screen and (min-width: 800px) {
-    width: 40%;
+  @media screen and (min-width: 600px) {
+    width: 50%;
   }
   @media screen and (min-width: 2000px) {
-    width: 20%;
+    width: 40%;
   }
 }
 
 .mapChart {
-  /* background-color: rgb(209, 158, 158); */
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 300px;
   margin: 50px auto;
+  @media screen and (min-width: 1200px) {
+    width: 600px;
+    height: 600px;
+    margin: 50px 0;
+  }
 }
 </style>
