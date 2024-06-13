@@ -295,54 +295,30 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="bigbox">
-    <div class="box1">
-      <v-chart class="barChart" :option="barChartOption" :theme="currentTheme" autoresize />
-      <v-chart class="pieChart" :option="pieChartOption" theme="themeLight" autoresize />
+  <div class="pb-[50px] xl:flex xl:justify-center">
+    <div class="w-full pt-[50px] xl:w-[50%]">
+      <v-chart
+        class="mx-[auto] my-0 h-[360px] w-[90%]"
+        :option="barChartOption"
+        :theme="currentTheme"
+        autoresize
+      />
+      <v-chart
+        class="mx-[auto] my-0 h-[180px] w-[90%] sm:w-[50%] 2xl:w-[40%]"
+        :option="pieChartOption"
+        theme="themeLight"
+        autoresize
+      />
     </div>
-    <v-chart class="mapChart" ref="mapItem" :option="mapChartOption" autoresize />
+    <div>
+      <v-chart
+        class="mx-[auto] my-[50px] h-[300px] w-[300px] xl:mx-0 xl:h-[600px] xl:w-[600px]"
+        ref="mapItem"
+        :option="mapChartOption"
+        autoresize
+      />
+    </div>
   </div>
 </template>
 
-<style scoped>
-.bigbox {
-  width: 100vw;
-  @media screen and (min-width: 1200px) {
-    display: flex;
-    justify-content: center;
-  }
-}
-.box1 {
-  width: 100%;
-  @media screen and (min-width: 1200px) {
-    width: 50%;
-  }
-}
-.barChart {
-  width: 90%;
-  height: 360px;
-  margin: 50px auto 0 auto;
-}
-.pieChart {
-  width: 90%;
-  height: 180px;
-  margin: 0 auto;
-  @media screen and (min-width: 600px) {
-    width: 50%;
-  }
-  @media screen and (min-width: 2000px) {
-    width: 40%;
-  }
-}
-
-.mapChart {
-  width: 300px;
-  height: 300px;
-  margin: 50px auto;
-  @media screen and (min-width: 1200px) {
-    width: 600px;
-    height: 600px;
-    margin: 50px 0;
-  }
-}
-</style>
+<style scoped></style>
