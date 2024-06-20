@@ -3,9 +3,9 @@ const routes = [
   { name: 'Home', path: '/homepage', icon: 'src/assets/icon/menu-home.svg' },
   { name: 'Todo List', path: '/todolist', icon: 'src/assets/icon/menu-todo.svg' },
   { name: 'Carousel', path: '/Carousel', icon: 'src/assets/icon/menu-carousel.svg' },
-  { name: 'TicTacToe', path: '/tictactoe', icon: 'src/assets/icon/menu-game.svg' },
   { name: 'Chart', path: '/chart', icon: 'src/assets/icon/menu-chart.svg' },
-  { name: 'AJAX', path: '/ajax', icon: 'src/assets/icon/menu-ajax.svg' }
+  { name: 'AJAX', path: '/ajax', icon: 'src/assets/icon/menu-ajax.svg' },
+  { name: 'TicTacToe', path: '/tictactoe', icon: 'src/assets/icon/menu-game.svg' }
 ]
 
 const { openMenu } = defineProps(['openMenu'])
