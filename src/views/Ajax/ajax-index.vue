@@ -56,8 +56,12 @@ onMounted(() => {
     <buttonTest @click="getSessionData('trendingMovie')">Movie</buttonTest>
     <buttonTest @click="getSessionData('trendingTV')">Drama</buttonTest>
   </div>
-
-  <div v-if="isLoading" class="loader">Loading...</div>
+  <div
+    v-if="isLoading"
+    class="animate-loadingDot mx-auto my-20 w-fit font-mono text-[30px] [clip-path:inset(0_3ch_0_0)]"
+  >
+    Loading...
+  </div>
   <div v-else class="mx-auto grid w-[90%] grid-cols-3 gap-1 xl:grid-cols-4 xl:gap-2.5">
     <div v-for="(item, index) in data" :key="index">
       <a
@@ -73,7 +77,9 @@ onMounted(() => {
         <div
           class="absolute top-0 aspect-[71/98] w-full bg-black opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-50"
         ></div>
-        <div class="wordbox group-hover:bottom-[10%] group-hover:opacity-100">
+        <div
+          class="absolute bottom-0 px-[10%] text-sm font-semibold text-white opacity-0 transition-all duration-300 ease-in-out group-hover:bottom-[10%] group-hover:opacity-100 lg:text-2xl 2xl:text-4xl"
+        >
           <span>{{ item.title ? '電影名稱：' + item.title : '劇集名稱：' + item.name }}</span
           ><br />
           <span>{{
@@ -85,36 +91,4 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
-.wordbox {
-  position: absolute;
-  bottom: 0;
-  padding: 0 10%;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: rgb(255, 255, 255);
-  opacity: 0;
-  transition: bottom 0.3s ease-in-out;
-  @media screen and (min-width: 1000px) {
-    font-size: 1.5rem;
-  }
-  @media screen and (min-width: 2000px) {
-    font-size: 2.5rem;
-  }
-}
-
-.loader {
-  width: fit-content;
-  margin: 0 auto;
-  font-family: monospace;
-  font-size: 30px;
-  clip-path: inset(0 3ch 0 0);
-  animation: l4 1s steps(4) infinite;
-}
-
-@keyframes l4 {
-  to {
-    clip-path: inset(0 -1ch 0 0);
-  }
-}
-</style>
+<style scoped></style>
