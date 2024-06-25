@@ -1,7 +1,22 @@
-<script setup lang="ts">
-import { onMounted, ref, type Ref } from 'vue'
-import Swiper from 'swiper/bundle'
-import 'swiper/css/bundle'
+<script setup>
+import { ref } from 'vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+
+import 'swiper/css'
+import 'swiper/css/free-mode'
+import 'swiper/css/navigation'
+import 'swiper/css/thumbs'
+// import './style.css'
+
+import { Parallax, Pagination, FreeMode, Navigation, Thumbs } from 'swiper/modules'
+
+const thumbsSwiper = ref(null)
+
+const setThumbsSwiper = (swiper) => {
+  thumbsSwiper.value = swiper
+}
+
+const modules = [Parallax, Pagination, FreeMode, Navigation, Thumbs]
 
 const carouselText = [
   {
@@ -21,75 +36,141 @@ const carouselText = [
     content:
       'Seclusion is often associated with solitude and peace. It allows individuals to step away from the hustle and bustle of daily life, providing an opportunity for introspection and self-discovery. Seclusion does not necessarily mean loneliness; instead, it can be a time for recharging and gaining a fresh perspective. However, it is important to balance periods of seclusion with social interaction to maintain overall well-being.',
     src: 'src/assets/picture/pic-road.jpg'
+  },
+  {
+    title: 'Existentialism',
+    content:
+      'Existentialism is a philosophical theory or approach which emphasizes the existence of the individual person as a free and responsible agent determining their own development through acts of the will.',
+    src: 'src/assets/picture/pic-balloon.jpg'
+  },
+  {
+    title: 'Entertainment',
+    content:
+      'Entertainment includes diverse activities like dance, movies, travel, and storytelling, each capable of expressing emotions, transporting us to different realms, exploring cultures, and connecting us with humanity.',
+    src: 'src/assets/picture/pic-flower.jpg'
   }
 ]
 
-const picTitle: Ref<string> = ref(carouselText[0].title)
-const picContent: Ref<string> = ref(carouselText[0].content)
+const picTitle = ref(carouselText[0].title)
+const picContent = ref(carouselText[0].content)
 
-onMounted(() => {
-  const swiper1 = new Swiper('.swiper1', {
-    loop: true,
-    autoplay: true,
-    effect: 'fade',
-    fadeEffect: {
-      crossFade: true
-    },
-
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-      dynamicBullets: true
-    },
-
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
-    }
-  })
-  swiper1.on('realIndexChange', function () {
-    picTitle.value = carouselText[swiper1.realIndex].title
-    picContent.value = carouselText[swiper1.realIndex].content
-  })
-})
+function handleSlideChange(swiper) {
+  console.log('OK')
+  picTitle.value = carouselText[swiper.realIndex].title
+  picContent.value = carouselText[swiper.realIndex].content
+}
 </script>
 
 <template>
-  <div class="block md:flex">
-    <div class="swiper1 relative mx-[auto] mb-10 w-[90vw] pt-8 md:w-[50vw]">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide aspect-video" v-for="(item, key) in carouselText" :key="key">
-          <img class="h-full w-full object-cover" :src="item.src" :alt="item.title" />
-        </div>
-      </div>
-      <div class="swiper-pagination -mb-10"></div>
-      <div class="swiper-button-prev bg-[url('src/assets/icon/arrow-prev.svg')]"></div>
-      <div class="swiper-button-next bg-[url('src/assets/icon/arrow-next.svg')]"></div>
+  <div class="box">
+    <div class="box1">
+      <swiper
+        @realIndexChange="handleSlideChange"
+        :loop="true"
+        :navigation="true"
+        :thumbs="{ swiper: thumbsSwiper }"
+        :modules="modules"
+        :speed="1000"
+        :parallax="true"
+        :pagination="{
+          clickable: true
+        }"
+      >
+        <swiper-slide v-for="(item, key) in carouselText" :key="key">
+          <div class="wordbox">
+            <h4 data-swiper-parallax="-1000">{{ item.title }}</h4>
+            <p data-swiper-parallax="-2000">{{ item.content }}</p>
+          </div>
+          <img :src="item.src" :alt="item.title" />
+        </swiper-slide>
+      </swiper>
     </div>
-    <div class="p-5 md:w-[50vw] md:pt-[5%]">
-      <h4 class="pb-3 text-2xl text-gray-800">{{ picTitle }}</h4>
-      <p class="text-gray-500 xl:w-[40vw]">{{ picContent }}</p>
+    <div class="box2">
+      <swiper
+        @swiper="setThumbsSwiper"
+        :loop="true"
+        :slidesPerView="5"
+        :freeMode="true"
+        :watchSlidesProgress="true"
+        :modules="modules"
+      >
+        <swiper-slide v-for="(item, key) in carouselText" :key="key">
+          <img :src="item.src" :alt="item.title" />
+        </swiper-slide>
+      </swiper>
     </div>
   </div>
 </template>
 
 <style scoped>
-div[class^='swiper-button'] {
-  background-size: contain;
-  width: 30px;
-  height: 30px;
-  opacity: 0.5;
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 16/9;
+}
+.box {
+  width: 100vw;
+}
+.box1 {
+  position: relative;
+}
+.box2 {
+  padding-top: 5px;
 }
 
+.box2 .swiper-slide {
+  opacity: 0.4;
+}
+
+.box2 .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.wordbox {
+  position: absolute;
+  color: aliceblue;
+  top: 20%;
+  left: 20%;
+  width: 60%;
+}
+.wordbox p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: calc(1em * 1.5 * 3);
+  line-height: 1.5em;
+  font-family: math;
+}
+.wordbox h4 {
+  font-family: fantasy;
+  font-size: xx-large;
+  padding-bottom: 10px;
+}
+/* .swiper-button-prev {
+  background-image: url('../../assets/icon/arrow-prev.svg');
+} */
+</style>
+
+<style>
 .swiper-button-prev::after,
 .swiper-button-next::after {
   content: none;
 }
-</style>
-
-<style>
-.swiper-pagination-bullet {
-  background-color: grey;
-  --swiper-pagination-bullet-size: 12px;
+.swiper-button-prev {
+  width: 30px;
+  height: 30px;
+  background-image: url('@/assets/icon/arrow-prev.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.swiper-button-next {
+  width: 30px;
+  height: 30px;
+  background-image: url('@/assets/icon/arrow-next.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 </style>
