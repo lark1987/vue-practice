@@ -60,7 +60,7 @@ function handleSlideChange(swiper) {
 </script>
 
 <template>
-  <div class="carouselBox w-[100vw] bg-black">
+  <div class="carouselBox w-[100vw]">
     <div>
       <swiper
         @realIndexChange="handleSlideChange"
@@ -72,7 +72,7 @@ function handleSlideChange(swiper) {
         :parallax="true"
       >
         <swiper-slide v-for="(item, key) in carouselText" :key="key">
-          <div class="absolute left-[25%] top-[35%] w-[50%] text-white">
+          <div class="absolute left-[25%] top-[35%] w-[50%]">
             <h4 data-swiper-parallax="-1000" class="pb-2.5 font-[fantasy] text-4xl md:text-5xl">
               {{ item.title }}
             </h4>
@@ -114,7 +114,7 @@ function handleSlideChange(swiper) {
         </swiper-slide>
       </swiper>
     </div>
-    <div class="p-[10%] text-white">
+    <div class="p-[10%]">
       <h4 class="pb-2 font-[fantasy] text-2xl">{{ picTitle }}</h4>
       <p class="font-[math]">{{ picContent }}</p>
     </div>
