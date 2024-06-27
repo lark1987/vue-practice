@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import VChart from 'vue-echarts'
 import { registerTheme, registerMap, use } from 'echarts/core'
 

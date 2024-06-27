@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 
@@ -6,15 +6,8 @@ import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
-// import './style.css'
 
 import { Parallax, Pagination, FreeMode, Navigation, Thumbs } from 'swiper/modules'
-
-const thumbsSwiper = ref(null)
-
-const setThumbsSwiper = (swiper) => {
-  thumbsSwiper.value = swiper
-}
 
 const modules = [Parallax, Pagination, FreeMode, Navigation, Thumbs]
 
@@ -51,19 +44,24 @@ const carouselText = [
   }
 ]
 
-const picTitle = ref(carouselText[0].title)
-const picContent = ref(carouselText[0].content)
+const thumbsSwiper = ref(null)
+
+function setThumbsSwiper(swiper) {
+  thumbsSwiper.value = swiper
+}
+
+const picTitle: string = ref(carouselText[0].title)
+const picContent: string = ref(carouselText[0].content)
 
 function handleSlideChange(swiper) {
-  console.log('OK')
   picTitle.value = carouselText[swiper.realIndex].title
   picContent.value = carouselText[swiper.realIndex].content
 }
 </script>
 
 <template>
-  <div class="box">
-    <div class="box1">
+  <div class="carouselBox w-[100vw] bg-black">
+    <div>
       <swiper
         @realIndexChange="handleSlideChange"
         :loop="true"
@@ -72,20 +70,29 @@ function handleSlideChange(swiper) {
         :modules="modules"
         :speed="1000"
         :parallax="true"
-        :pagination="{
-          clickable: true
-        }"
       >
         <swiper-slide v-for="(item, key) in carouselText" :key="key">
-          <div class="wordbox">
-            <h4 data-swiper-parallax="-1000">{{ item.title }}</h4>
-            <p data-swiper-parallax="-2000">{{ item.content }}</p>
+          <div class="absolute left-[25%] top-[35%] w-[50%] text-white">
+            <h4 data-swiper-parallax="-1000" class="pb-2.5 font-[fantasy] text-4xl md:text-5xl">
+              {{ item.title }}
+            </h4>
+            <p
+              data-swiper-parallax="-3000"
+              class="line-clamp-2 h-[calc(1em*1.5*2)] text-ellipsis font-[math] leading-[1.5em]"
+            >
+              {{ item.content }}
+            </p>
+            <div></div>
           </div>
-          <img :src="item.src" :alt="item.title" />
+          <img
+            :src="item.src"
+            :alt="item.title"
+            class="aspect-video h-full w-full object-cover md:aspect-[3]"
+          />
         </swiper-slide>
       </swiper>
     </div>
-    <div class="box2">
+    <div class="py-1">
       <swiper
         @swiper="setThumbsSwiper"
         :loop="true"
@@ -94,83 +101,49 @@ function handleSlideChange(swiper) {
         :watchSlidesProgress="true"
         :modules="modules"
       >
-        <swiper-slide v-for="(item, key) in carouselText" :key="key">
-          <img :src="item.src" :alt="item.title" />
+        <swiper-slide
+          v-for="(item, key) in carouselText"
+          :key="key"
+          class="opacity-50 active:opacity-100"
+        >
+          <img
+            :src="item.src"
+            :alt="item.title"
+            class="aspect-video h-full w-full object-cover md:aspect-[3]"
+          />
         </swiper-slide>
       </swiper>
+    </div>
+    <div class="p-[10%] text-white">
+      <h4 class="pb-2 font-[fantasy] text-2xl">{{ picTitle }}</h4>
+      <p class="font-[math]">{{ picContent }}</p>
     </div>
   </div>
 </template>
 
-<style scoped>
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  aspect-ratio: 16/9;
-}
-.box {
-  width: 100vw;
-}
-.box1 {
-  position: relative;
-}
-.box2 {
-  padding-top: 5px;
-}
-
-.box2 .swiper-slide {
-  opacity: 0.4;
-}
-
-.box2 .swiper-slide-thumb-active {
+<style>
+.carouselBox .swiper-slide-thumb-active {
   opacity: 1;
 }
 
-.wordbox {
-  position: absolute;
-  color: aliceblue;
-  top: 20%;
-  left: 20%;
-  width: 60%;
-}
-.wordbox p {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: calc(1em * 1.5 * 3);
-  line-height: 1.5em;
-  font-family: math;
-}
-.wordbox h4 {
-  font-family: fantasy;
-  font-size: xx-large;
-  padding-bottom: 10px;
-}
-/* .swiper-button-prev {
-  background-image: url('../../assets/icon/arrow-prev.svg');
-} */
-</style>
-
-<style>
-.swiper-button-prev::after,
-.swiper-button-next::after {
+.carouselBox .swiper-button-prev::after,
+.carouselBox .swiper-button-next::after {
   content: none;
 }
-.swiper-button-prev {
+.carouselBox .swiper-button-prev {
   width: 30px;
   height: 30px;
   background-image: url('@/assets/icon/arrow-prev.svg');
   background-size: contain;
   background-repeat: no-repeat;
+  left: 5%;
 }
-.swiper-button-next {
+.carouselBox .swiper-button-next {
   width: 30px;
   height: 30px;
   background-image: url('@/assets/icon/arrow-next.svg');
   background-size: contain;
   background-repeat: no-repeat;
+  right: 5%;
 }
 </style>
