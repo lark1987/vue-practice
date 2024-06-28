@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import themeLight from './theme-light.json'
+import themeDark from './theme-dark.json'
+import taiwanGeoJson from './taiwan-map-geo.json'
+import { barChartSource } from './data-bar'
+import mapData from './data-map'
+
 import VChart from 'vue-echarts'
 import { registerTheme, registerMap, use } from 'echarts/core'
 
@@ -17,13 +24,6 @@ import {
 } from 'echarts/components'
 import { UniversalTransition } from 'echarts/features'
 import { CanvasRenderer } from 'echarts/renderers'
-
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import themeLight from './theme-light.json'
-import themeDark from './theme-dark.json'
-import taiwanGeoJson from './taiwan-map-geo.json'
-import { barChartSource } from './data-bar.ts'
-import mapData from './data-map.ts'
 
 use([
   PieChart,
@@ -46,11 +46,11 @@ use([
 
 registerTheme('themeLight', themeLight)
 registerTheme('themeDark', themeDark)
-registerMap('taiwan', taiwanGeoJson)
+registerMap('taiwan', taiwanGeoJson as any)
 
 const currentTheme = ref('themeLight')
 
-const mapItem = ref(null)
+const mapItem: any = ref(null)
 
 const barChartOption = ref({
   dataset: {
@@ -169,7 +169,8 @@ const pieChartOption = ref({
       datasetIndex: 1,
       label: {
         position: 'inside',
-        formatter: function (params) {
+        formatter: function (params: any) {
+          console.log(params)
           return params.value[1].toFixed(2) * 100 + '%'
         }
       }
@@ -181,7 +182,7 @@ const pieChartOption = ref({
       datasetIndex: 2,
       label: {
         position: 'inside',
-        formatter: function (params) {
+        formatter: function (params: any) {
           return params.value[1].toFixed(2) * 100 + '%'
         }
       }
@@ -193,7 +194,7 @@ const pieChartOption = ref({
       datasetIndex: 3,
       label: {
         position: 'inside',
-        formatter: function (params) {
+        formatter: function (params: any) {
           return params.value[1].toFixed(2) * 100 + '%'
         }
       }

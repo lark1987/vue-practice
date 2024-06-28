@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Swiper as SwiperType } from 'swiper'
 
 import 'swiper/css'
 import 'swiper/css/free-mode'
@@ -44,16 +45,16 @@ const carouselText = [
   }
 ]
 
-const thumbsSwiper = ref(null)
+const thumbsSwiper: Ref<SwiperType | null> = ref(null)
 
-function setThumbsSwiper(swiper) {
+function setThumbsSwiper(swiper: SwiperType) {
   thumbsSwiper.value = swiper
 }
 
-const picTitle: string = ref(carouselText[0].title)
-const picContent: string = ref(carouselText[0].content)
+const picTitle: Ref<string> = ref(carouselText[0].title)
+const picContent: Ref<string> = ref(carouselText[0].content)
 
-function handleSlideChange(swiper) {
+function handleSlideChange(swiper: SwiperType) {
   picTitle.value = carouselText[swiper.realIndex].title
   picContent.value = carouselText[swiper.realIndex].content
 }
