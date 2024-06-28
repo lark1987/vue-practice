@@ -6,6 +6,7 @@ import Carousel from '@/views/Carousel/carousel-index.vue'
 import TicTacToe from '@/views/TicTacToe/tic-tac-toe.vue'
 import Ajax from '@/views/Ajax/ajax-index.vue'
 import Chart from '@/views/Chart/chart-index.vue'
+import GSAP from '@/views/GSAP/gsap-index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,6 +46,11 @@ const router = createRouter({
           path: 'chart',
           name: 'chart',
           component: Chart
+        },
+        {
+          path: 'gsap',
+          name: 'gsap',
+          component: GSAP
         }
       ]
     }

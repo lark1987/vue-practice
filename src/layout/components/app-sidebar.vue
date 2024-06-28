@@ -5,7 +5,8 @@ const routes = [
   { name: 'Carousel', path: '/Carousel', icon: 'src/assets/icon/menu-carousel.svg' },
   { name: 'Chart', path: '/chart', icon: 'src/assets/icon/menu-chart.svg' },
   { name: 'AJAX', path: '/ajax', icon: 'src/assets/icon/menu-ajax.svg' },
-  { name: 'TicTacToe', path: '/tictactoe', icon: 'src/assets/icon/menu-game.svg' }
+  { name: 'TicTacToe', path: '/tictactoe', icon: 'src/assets/icon/menu-game.svg' },
+  { name: 'GSAP', path: '/gsap', icon: 'src/assets/icon/menu-home.svg' }
 ]
 
 const { openMenu } = defineProps(['openMenu'])
