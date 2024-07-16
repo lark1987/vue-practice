@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import gsap from 'gsap'
+
 const routes = [
   { name: 'Todo List', path: '/todolist', icon: 'src/assets/icon/menu-todo.svg' },
   { name: 'Carousel', path: '/Carousel', icon: 'src/assets/icon/menu-carousel.svg' },
@@ -6,9 +8,26 @@ const routes = [
   { name: 'AJAX', path: '/ajax', icon: 'src/assets/icon/menu-ajax.svg' },
   { name: 'TicTacToe', path: '/tictactoe', icon: 'src/assets/icon/menu-game.svg' }
 ]
+
+const animationOption = {
+  duration: 2,
+  ease: 'back',
+  scale: 0,
+  opacity: 0,
+  stagger: 0.25
+  // x: 'random(-1000,1000)'
+}
+
+function test() {
+  let tl = gsap.timeline()
+  tl.from('.box1', { duration: 1, x: 100 }).from('.item', animationOption)
+}
 </script>
 
 <template>
+  <div>
+    <button @click="test">test</button>
+  </div>
   <div class="bigbox">
     <div class="box1">
       <h3>Welcome</h3>
@@ -47,5 +66,11 @@ const routes = [
 }
 .box2 .item:hover {
   background-color: #afd89f;
+}
+
+button {
+  padding: 3px;
+  border: 1px solid black;
+  width: 100px;
 }
 </style>
