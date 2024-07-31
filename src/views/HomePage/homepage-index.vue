@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import gsap from 'gsap'
+import { onMounted } from 'vue'
 
 const routes = [
   { name: 'Todo List', path: '/todolist', icon: 'src/assets/icon/menu-todo.svg' },
@@ -9,25 +10,25 @@ const routes = [
   { name: 'TicTacToe', path: '/tictactoe', icon: 'src/assets/icon/menu-game.svg' }
 ]
 
-const animationOption = {
+const itemAnimationSetup = {
   duration: 2,
   ease: 'back',
   scale: 0,
   opacity: 0,
   stagger: 0.25
-  // x: 'random(-1000,1000)'
 }
 
-function test() {
+function introAnimation() {
   let tl = gsap.timeline()
-  tl.from('.box1', { duration: 1, x: 100 }).from('.item', animationOption)
+  tl.from('.box1', { duration: 1, y: -50 }).from('.item', itemAnimationSetup)
 }
+
+onMounted(() => {
+  introAnimation()
+})
 </script>
 
 <template>
-  <div>
-    <button @click="test">test</button>
-  </div>
   <div class="bigbox">
     <div class="box1">
       <h3>Welcome</h3>
