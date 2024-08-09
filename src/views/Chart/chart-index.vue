@@ -170,7 +170,6 @@ const pieChartOption = ref({
       label: {
         position: 'inside',
         formatter: function (params: any) {
-          console.log(params)
           return params.value[1].toFixed(2) * 100 + '%'
         }
       }

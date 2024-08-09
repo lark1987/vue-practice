@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 #app {
-  display: flex;
   font-family: '微軟正黑體';
 }
 

@@ -11,7 +11,7 @@ const routes = [
 ]
 
 const itemAnimationSetup = {
-  duration: 2,
+  duration: 1.5,
   ease: 'back',
   scale: 0,
   opacity: 0,
@@ -20,7 +20,7 @@ const itemAnimationSetup = {
 
 function introAnimation() {
   let tl = gsap.timeline()
-  tl.from('.box1', { duration: 1, y: -50 }).from('.item', itemAnimationSetup)
+  tl.from('.box1', { duration: 0.8, y: -50 }).from('.item', itemAnimationSetup)
 }
 
 onMounted(() => {
@@ -44,6 +44,8 @@ onMounted(() => {
 </template>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Archivo+Black&display=swap');
+
 .bigbox {
   width: 100%;
   margin: 0 auto;
@@ -53,6 +55,8 @@ onMounted(() => {
   width: 100%;
   text-align: center;
   padding: 30px 0;
+  font-family: 'Anton SC', sans-serif;
+  font-size: x-large;
 }
 .box2 {
   width: 50%;
@@ -66,7 +70,7 @@ onMounted(() => {
   padding: 10px;
 }
 .box2 .item:hover {
-  background-color: #afd89f;
+  background-color: #9fc8d8;
 }
 
 button {
