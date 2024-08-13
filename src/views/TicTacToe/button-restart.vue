@@ -1,7 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <button class="rounded bg-blue-300 p-2 hover:bg-blue-400 md:p-5">Restart</button>
+  <button class="rounded-xl bg-[#9E0705] p-2 text-[white] hover:bg-[#ce4340] xl:p-10">
+    Restart
+  </button>
 </template>
 
 <style scoped></style>
