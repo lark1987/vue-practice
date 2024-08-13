@@ -68,7 +68,7 @@ function dropHandler(event: DragEvent, dropId: string) {
       <li
         v-for="{ id, todo, isChecked, isEdit } in todos"
         :key="id"
-        class="flex items-center p-3 hover:rounded-xl hover:bg-slate-200 xl:my-5 xl:p-5"
+        class="flex items-center p-3 hover:bg-slate-200 xl:my-5 xl:p-5"
         draggable="true"
         @dragstart="dragStartHandler($event, id)"
         @drop="dropHandler($event, id)"

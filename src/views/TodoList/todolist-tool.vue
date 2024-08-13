@@ -29,7 +29,7 @@ function handleBatchDelete() {
 </script>
 
 <template>
-  <div class="flex rounded bg-slate-400 p-3 xl:my-5 xl:p-5">
+  <div class="flex bg-slate-400 p-3 xl:my-5 xl:p-5">
     <label class="flex w-[20px] cursor-pointer gap-0.5 xl:w-[40px]" title="全部選取">
       <input
         type="checkbox"

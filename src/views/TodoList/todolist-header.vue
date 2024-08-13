@@ -14,12 +14,12 @@ function handleAddTodo() {
 </script>
 
 <template>
-  <div class="w-full p-3">
+  <div class="w-full bg-slate-400 p-5">
     <input
       placeholder="請輸入待辦事項"
       v-model="inputValue"
       @keyup.enter="handleAddTodo"
-      class="w-full rounded p-2 hover:border-2 xl:mt-5 xl:p-5"
+      class="w-full rounded border-2 p-2 xl:p-5"
     />
   </div>
 </template>

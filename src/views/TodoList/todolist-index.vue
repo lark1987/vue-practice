@@ -84,7 +84,8 @@ function dragTodo(dragId: string, dropId: string) {
   todos.value.splice(addIndex, 0, todos.value.splice(cutIndex, 1)[0])
 }
 
-const classTablet = ['xl:w-[80%]', 'xl:m-[auto]', 'xl:text-2xl']
+const classTablet = ['xl:text-2xl']
+// const classTablet: any = []
 </script>
 
 <template>
