@@ -12,6 +12,10 @@ export default {
       },
       animation: {
         loadingDot: 'loadingDot 1s steps(4) infinite'
+      },
+      fontFamily: {
+        'anton-sc': ['Anton SC', 'sans-serif'],
+        'archivo-black': ['Archivo Black', 'sans-serif']
       }
     }
   },

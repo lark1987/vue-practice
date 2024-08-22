@@ -75,8 +75,9 @@ const checkWinner = computed(() => {
         checkWinner ? 'block' : 'hidden'
       ]"
     >
-      <span>Game Over</span><br />
-      <span class="leading-[2.5rem] xl:leading-[10rem]">the winner is {{ checkWinner }}</span
+      <span class="font-anton-sc">Game Over</span><br />
+      <span class="font-anton-sc leading-[2.5rem] xl:leading-[10rem]"
+        >the winner is {{ checkWinner }}</span
       ><br />
       <ButtonRestart @click="restart" />
     </div>
@@ -90,4 +91,6 @@ const checkWinner = computed(() => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Archivo+Black&display=swap');
+</style>

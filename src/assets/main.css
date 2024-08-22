@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Anton+SC&family=Archivo+Black&display=swap');
+
 #app {
   font-family: '微軟正黑體';
 }
