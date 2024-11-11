@@ -49,15 +49,9 @@ const checkWinner = computed(() => {
 </script>
 
 <template>
-  <div class="bg-black p-8 xl:p-40">
-    <div class="flex py-5 xl:text-7xl">
-      <span class="grow self-center text-white">當前玩家：{{ player }}</span
-      ><br />
-      <ButtonRestart @click="restart" />
-    </div>
-
+  <div class="justify-center bg-black p-8 sm:flex xl:gap-x-16 xl:p-40 xl:text-3xl">
     <div
-      class="grid aspect-square grid-cols-[32%,32%,32%] grid-rows-[32%,32%,32%] justify-center gap-[1%] text-[4rem]"
+      class="grid aspect-square grid-cols-[32%,32%,32%] grid-rows-[32%,32%,32%] justify-center gap-[1%] text-[4rem] sm:w-[80%] lg:w-[50%]"
     >
       <div
         v-for="(item, index) in board"
@@ -65,21 +59,27 @@ const checkWinner = computed(() => {
         @click="makeMove(index)"
         class="grid place-items-center border-4 border-white hover:bg-gray-600"
       >
-        <span class="text-[#ffd700] xl:text-9xl">{{ item }}</span>
+        <span class="text-[#ffd700]">{{ item }}</span>
       </div>
+    </div>
+
+    <div class="flex gap-5 p-5 sm:flex-col-reverse">
+      <div class="grow self-center text-white">
+        <span>當前玩家：{{ player }}</span>
+      </div>
+      <ButtonRestart @click="restart" />
     </div>
 
     <div
       :class="[
-        'absolute left-[50%] top-[40%] z-20 translate-x-[-50%] translate-y-[-50%] rounded-3xl bg-[#e7dc9f] p-10 text-center xl:p-[5rem] xl:text-6xl',
+        'absolute left-[50%] top-[35%] z-20 translate-x-[-50%] translate-y-[-50%] rounded-3xl bg-[#e7dc9f] p-10 text-center',
         checkWinner ? 'block' : 'hidden'
       ]"
     >
       <span class="font-anton-sc">Game Over</span><br />
-      <span class="font-anton-sc leading-[2.5rem] xl:leading-[10rem]"
-        >the winner is {{ checkWinner }}</span
-      ><br />
-      <ButtonRestart @click="restart" />
+      <span class="font-anton-sc leading-[3rem] xl:leading-[6rem]">the winner is</span>
+      <span class="pl-2 font-anton-sc text-red-700">{{ checkWinner }}</span> <br />
+      <ButtonRestart @click="restart" class="w-full" />
     </div>
 
     <div

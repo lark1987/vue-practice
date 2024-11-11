@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { db } from '@/utils/firebase.js'
+console.log(db)
+
 import { ref } from 'vue'
 import { nanoid } from 'nanoid'
 import TodoInput from './todolist-header.vue'

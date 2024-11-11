@@ -47,12 +47,12 @@ const carouselText = [
 
 const thumbsSwiper: Ref<SwiperType | null> = ref(null)
 
+const picTitle: Ref<string> = ref(carouselText[0].title)
+const picContent: Ref<string> = ref(carouselText[0].content)
+
 function setThumbsSwiper(swiper: SwiperType) {
   thumbsSwiper.value = swiper
 }
-
-const picTitle: Ref<string> = ref(carouselText[0].title)
-const picContent: Ref<string> = ref(carouselText[0].content)
 
 function handleSlideChange(swiper: SwiperType) {
   picTitle.value = carouselText[swiper.realIndex].title
@@ -96,11 +96,11 @@ function handleSlideChange(swiper: SwiperType) {
     <div class="py-1">
       <swiper
         @swiper="setThumbsSwiper"
-        :loop="true"
         :slidesPerView="5"
         :freeMode="true"
         :watchSlidesProgress="true"
         :modules="modules"
+        class="bg-black"
       >
         <swiper-slide
           v-for="(item, key) in carouselText"
