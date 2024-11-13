@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { db } from '@/utils/firebase.js'
-console.log(db)
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 
 import { ref } from 'vue'
 import { nanoid } from 'nanoid'
@@ -9,26 +9,27 @@ import TodoContent from './todolist-content.vue'
 import TodoTool from './todolist-tool.vue'
 import type { Todo } from './types'
 
-let todos = ref<Todo[]>([
-  {
-    id: '001',
-    todo: 'hello, 嗨嗨',
-    isChecked: true,
-    isEdit: false
-  },
-  {
-    id: '002',
-    todo: '滾滾長江東逝水，浪花淘盡英雄。是非成敗轉頭空，青山依舊在，幾度夕陽紅。白髮漁樵江渚上，慣看秋月春風。一壺濁酒喜相逢，古今多少事，都付笑談中。',
-    isChecked: false,
-    isEdit: false
-  },
-  {
-    id: '003',
-    todo: 'Remembering that you are going to die is the best way I know to avoid the trap of thinking you have something to lose. You are already naked. There is no reason not to follow your heart.',
-    isChecked: false,
-    isEdit: false
+let todos = ref<Todo[]>([])
+let isLoading = ref(true)
+
+let firebaseCollectionName = 'ToDoList'
+let firebaseDataID = '1h388GxC6lXqzyWN9Dnm'
+let firebaseDataName = 'Todos'
+
+async function fetchDocument() {
+  const docRef = doc(db, firebaseCollectionName, firebaseDataID)
+  const docSnap = await getDoc(docRef)
+
+  if (docSnap.exists()) {
+    console.log(docSnap.data().firebaseDataName)
+    todos.value = docSnap.data().firebaseDataName
+    isLoading.value = false
+  } else {
+    console.log('No such document!')
   }
-])
+}
+
+fetchDocument()
 
 function addTodo(item: string) {
   let newItem = {
@@ -87,15 +88,26 @@ function dragTodo(dragId: string, dropId: string) {
   todos.value.splice(addIndex, 0, todos.value.splice(cutIndex, 1)[0])
 }
 
+async function uploadData() {
+  let newData = {
+    firebaseDataName: todos.value
+  }
+
+  console.log(newData)
+
+  await setDoc(doc(db, firebaseCollectionName, firebaseDataID), newData)
+  console.log('upload')
+}
+
 const classTablet = ['xl:text-2xl']
-// const classTablet: any = []
 </script>
 
 <template>
   <div class="w-full pb-10">
     <TodoInput @addTodo="addTodo" :class="classTablet"></TodoInput>
-
+    <div v-if="isLoading">載入中...</div>
     <TodoContent
+      v-else
       :todos
       v-on="{
         toggleCheckbox,
@@ -113,6 +125,11 @@ const classTablet = ['xl:text-2xl']
       @deleteCheckedTodo="deleteCheckedTodo"
       :class="classTablet"
     ></TodoTool>
+  </div>
+
+  <div>
+    {{ todos }}<br />
+    <button @click="uploadData">uploadData</button>
   </div>
 </template>
 
