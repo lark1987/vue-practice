@@ -14,7 +14,6 @@ let isLoading = ref(true)
 
 let firebaseCollectionName = 'ToDoList'
 let firebaseDataID = '1h388GxC6lXqzyWN9Dnm'
-let firebaseDataName = 'Todos'
 
 async function fetchDocument() {
   const docRef = doc(db, firebaseCollectionName, firebaseDataID)
@@ -39,6 +38,7 @@ function addTodo(item: string) {
     isEdit: false
   }
   todos.value.unshift(newItem)
+  uploadData()
 }
 
 function toggleCheckbox(id: string) {
@@ -46,6 +46,7 @@ function toggleCheckbox(id: string) {
   if (item) {
     item.isChecked = !item.isChecked
   }
+  uploadData()
 }
 
 function toggleIsEdit(id: string) {
@@ -61,6 +62,7 @@ function updateTodo(id: string, newTodo: string) {
     item.isEdit = false
     item.todo = newTodo
   }
+  uploadData()
 }
 
 function deleteTodo(id: string) {
@@ -68,24 +70,28 @@ function deleteTodo(id: string) {
   if (index !== -1) {
     todos.value.splice(index, 1)
   }
+  uploadData()
 }
 
 function toggleAllCheckbox(allCheck: boolean) {
   todos.value.forEach((todo) => {
     todo.isChecked = !allCheck
   })
+  uploadData()
 }
 
 function deleteCheckedTodo() {
   todos.value = todos.value.filter((item) => {
     return item.isChecked === false
   })
+  uploadData()
 }
 
 function dragTodo(dragId: string, dropId: string) {
   let cutIndex = todos.value.findIndex((todo) => todo.id === dragId)
   let addIndex = todos.value.findIndex((todo) => todo.id === dropId)
   todos.value.splice(addIndex, 0, todos.value.splice(cutIndex, 1)[0])
+  uploadData()
 }
 
 async function uploadData() {
@@ -105,7 +111,10 @@ const classTablet = ['xl:text-2xl']
 <template>
   <div class="w-full pb-10">
     <TodoInput @addTodo="addTodo" :class="classTablet"></TodoInput>
-    <div v-if="isLoading">載入中...</div>
+    <div v-if="isLoading" class="m-10 w-fit font-mono text-[25px]">載入中...</div>
+    <div v-else-if="todos.length === 0" class="m-10 w-fit font-mono text-[25px]">
+      尚無內容，請於上方輸入框，輸入待辦事項
+    </div>
     <TodoContent
       v-else
       :todos
@@ -125,11 +134,6 @@ const classTablet = ['xl:text-2xl']
       @deleteCheckedTodo="deleteCheckedTodo"
       :class="classTablet"
     ></TodoTool>
-  </div>
-
-  <div>
-    {{ todos }}<br />
-    <button @click="uploadData">uploadData</button>
   </div>
 </template>
 
